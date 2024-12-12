@@ -2,8 +2,9 @@
     https://adventofcode.com/2023/day/3
 """
 import re
+import argparse       
 
-VERBOSE = False
+def ruler(): print("============================")
 
 def matches_(regex, text):
     """
@@ -12,10 +13,11 @@ def matches_(regex, text):
     matches = regex.finditer(text)
     return [(m.start(), m.end(), m.group(0)) for m in matches]
 
-# Regular expressions to find number
+# Regular expressions to find number.
 RE_NUMBER = re.compile(r"(\d+)")
-# Regular expressions to find all symbols
+# Regular expressions to find all symbols.
 RE_SYMBOL = re.compile(r"[^.\d]")
+# Regular expressions to find all "*".
 RE_STAR = re.compile(r"\*")
 
 def symbols_(regex, lines):
@@ -74,14 +76,14 @@ def adjacent_symbols_(symbols, i, start, end):
                     adjacent.append((y, x))
     return adjacent
 
-def part1(lines):
+def part1(lines, verbose=False):
     """
     Find all numbers that are adjacent to symbols and print their sum.
     """
     numbers = numbers_(lines)
     symbols = symbols_(RE_SYMBOL, lines)
-    if VERBOSE:
-        print("----------------------")
+    if verbose:
+        ruler
         for i in sorted(symbols.keys()):
             print(f"{i:4}: {sorted(symbols[i])}")
 
@@ -89,13 +91,13 @@ def part1(lines):
     # `part_numbers` is a list of numbers that are are adjacent to symbols in `line`.
     part_numbers = [v for i, start, end, v in numbers if is_adjacent_(symbols, i, start, end)]
 
-    if VERBOSE:
-        print("----------------------")
+    if verbose:
+        ruler()
         for  v in part_numbers:  
             print(f"{v}")
     print(f"Part 1: Sum of part numbers: {sum(part_numbers)}")
 
-def part2(lines):
+def part2(lines, verbose=False):
     """
     Find pairs of numbers that are adjacent to a "*" and print the sum of their products which is 
     called the "gear ratio" in the problem description.
@@ -112,29 +114,29 @@ def part2(lines):
                 symbols_neighbours[neighbour] = set()
             symbols_neighbours[neighbour].add(v)
     symbols_neighbours = {k: sorted(v) for k, v in symbols_neighbours.items() if len(v) > 1}    
-    if VERBOSE:
-        print("----------------------")
+    if verbose:
+        ruler
         for k, v in symbols_neighbours.items():
             print(f"{k}: {v}")
 
     gear_ratios = [v[0] * v[1] for v in symbols_neighbours.values()]
     print(f"Part 2: Gear ratio: {sum(gear_ratios)}")
 
-TEST = False
-if TEST:
-    INPUT = "aoc2023-day3-input-test.txt"
-else:           
-    INPUT = "aoc2023-day3-input.txt"
-
-lines = open(INPUT).read().splitlines()
-
-if VERBOSE:
+def parse_args():                                                                                                           
+     parser = argparse.ArgumentParser(description="Advent of Code 2023 Day 3 solution")                                      
+     parser.add_argument('-i', '--input', default="aoc2023-day3-input-test.txt", help="Input file path")                          
+     parser.add_argument('-v', '--verbose', action='store_true', help="Enable verbose output")                               
+     return parser.parse_args()  
+                                                                                                                                                                                                        
+args = parse_args()                                                                                                                                                                                                                
+lines = open(args.input).read().splitlines()  
+if args.verbose:
+    print(f"Processing file: {args.input}")    
     for regex in [RE_NUMBER, RE_SYMBOL]:
-        print("----------------------")
+        ruler
         print(f"regex: {regex}")
         for i, line in enumerate(lines):
             matches = matches_(regex, line)
-            print(f"{i:4}: '{line}' {matches} ")
-
-part1(lines)
-part2(lines)
+            print(f"{i:4}: '{line}' {matches} ")                                                                                                                                                                                                                                                                                            
+part1(lines, args.verbose)
+part2(lines, args.verbose)
