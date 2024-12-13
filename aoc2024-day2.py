@@ -23,21 +23,21 @@
     ------
     Now, the same rules apply as before, except if removing a single level from an unsafe report
     would make it safe, the report instead counts as safe.
-
-
-
 """
 from common import parse_args, read_lines, numbers_
 
 def diff_(row):
+    "Return the differences between adjacent values in the row."
     return [b-a for a,b in zip(row[:-1], row[1:])]
 
 def pos_neg(diffs):
+    "Return the positive and negative values in the list of differences."
     pos = [v for v in diffs if v >= 0]
     neg = [v for v in diffs if v <= 0]
     return pos, neg
 
 def is_valid_(row):
+    "Return True if the row is valid, False otherwise."
     diffs = diff_(row)
     pos, neg = pos_neg(diffs)
     if pos and neg: return False
@@ -45,41 +45,23 @@ def is_valid_(row):
         pos = [-v for v in neg]
     return all(1 <= v <= 3 for v in pos)
 
-# def is_valid_(row):
-#     is_valid = _is_valid_(row)
-#     print(f"   -  {row}: {is_valid}")
-#     return is_valid
-
 def is_valid_tol(row):
+    "Return True if the row is valid, either as is or with one value removed."
     if is_valid_(row): return True
     for i in range(len(row)):
         if is_valid_(row[:i] + row[i+1:]): return True
     return False
 
-# def is_valid_tol(row):
-#     is_valid = _is_valid_tol(row)
-#     print(f" --  {row}: {is_valid}")
-#     return is_valid
-
 def part1(lines):
     "Solution to part 1. 2 for the test input."
     rows = [numbers_(line) for line in lines]
     valids = [is_valid_(row) for row in rows]
-    # for i, v in enumerate(rows):
-    #     print(f"{i:2}: {v}")
-    # for i, v in enumerate(valids):
-    #     print(f"{i:2}: {v}")
     print(f"Part 1: {sum(valids)}")
 
 def part2(lines):
-    "Solution to part 2. 2 for the test input."
+    "Solution to part 2. 4 for the test input."
     rows = [numbers_(line) for line in lines]
-    # diffs = [diff_(row) for row in rows]
     valids = [is_valid_tol(row) for row in rows]
-    # for i, v in enumerate(rows):
-    #     print(f"{i:2}: {v}")
-    # for i, v in enumerate(valids):
-    #     print(f"{i:2}: {v}")
     print(f"Part 2: {sum(valids)}")
 
 args = parse_args("Advent of Code 2024 - Day 2", "aoc2024-day2-input-test.txt")

@@ -14,5 +14,8 @@ def parse_args(description, default_input):
     parser.add_argument('-i', '--input', default=default_input, help="Input file path")
     return parser.parse_args()
 
+def read_text(filename):
+    return open(filename).read()
+
 def read_lines(filename):
-    return open(filename).read().splitlines()
+    return read_text(filename).splitlines()
