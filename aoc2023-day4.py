@@ -58,21 +58,22 @@ def score_line(line):
 
 def parse_args():
     import argparse
-    parser = argparse.ArgumentParser(description="Advent of Code 2023 Day e solution")
-    parser.add_argument('-i', '--input', default="aoc2023-day4-input-test.txt", help="Input file path")
+    parser = argparse.ArgumentParser(description="Advent of Code 2023 Day 4 solution")
+    parser.add_argument('-i', '--input', default="aoc2023-day4-input-test.txt",
+                        help="Input file path")
     return parser.parse_args()
 
 def part1(lines):
-    # 20829
+    "Solution to part 1. 13 for the test input."
     scores = [score_line(line) for line in lines]
     print(f"Part 1: {sum(scores)}")
 
 def part2(lines):
-    # 12648035
-    original_cards = [decode_line(card) for card in lines]
-    card_wins = {i: wins_(card) for i, card in enumerate(original_cards)}
-    card_nums = {i: 1 for i in range(len(original_cards))}
-    for i in range(len(original_cards)):
+    "Solution to part 2. 30 for the test input."
+    cards = [decode_line(line) for line in lines]
+    card_wins = {i: wins_(card) for i, card in enumerate(cards)}
+    card_nums = {i: 1 for i in range(len(cards))}
+    for i in range(len(cards)):
         wins = card_wins[i]
         for j in range(i+1, i + wins+1):
             card_nums[j] += card_nums[i]
@@ -82,4 +83,3 @@ args = parse_args()
 lines = open(args.input).read().splitlines()
 part1(lines)
 part2(lines)
-
