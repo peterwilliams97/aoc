@@ -3,7 +3,8 @@
 
     Part 1:
     ------
-    In this word search, XMAS occurs a total of 18 times; here's the same word search again, but where letters not involved in any XMAS have been replaced with .:
+    In this word search, XMAS occurs a total of 18 times; here's the same word search again, but
+    where letters not involved in any XMAS have been replaced with .:
 
     ....XXMAS.
     .SAMXMS...
@@ -18,7 +19,15 @@
 
     Part 2:
     ------
+    Looking for the instructions, you flip over the word search to find that this isn't actually an
+    XMAS puzzle; it's an X-MAS puzzle in which you're supposed to find two MAS in the shape of an
+    X. One way to achieve that is like this:
 
+    M.S
+    .A.
+    M.S
+    Irrelevant characters have again been replaced with . in the above diagram. Within the X, each
+    MAS can be written forwards or backwards.
 """
 import re
 from types import SimpleNamespace as ns
@@ -49,9 +58,6 @@ def part1(rows):
         for dx, dy in spans:
             if (y+dx, x+dy) in M and (y+2*dx, x+2*dy) in A and (y+3*dx, x+3*dy) in S:
                 matches.append((y,x))
-                # print(f"{len(matches):4}: {y:3}, {x:3} {[dx,dy]}")
-    # for i, (y, x) in enumerate(matches):
-    #     print(f"{i:2}: {y}, {x}")
     print(f"Part 1: {len(matches)}")
 
 def part2(rows):
@@ -70,10 +76,7 @@ def part2(rows):
                 n += 1
         if n == 2:
             matches.append((y,x))
-    # for i, (y, x) in enumerate(matches):
-    #     print(f"{i:2}: {y}, {x}")
     print(f"Part 2: {len(matches)}")
-
 
 args = parse_args("Advent of Code 2024 - Day 4", "aoc2024-day4-input-test.txt")
 lines = read_lines(args.input)
