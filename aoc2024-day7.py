@@ -33,7 +33,6 @@
 
 """
 import time
-from collections import defaultdict
 from common import parse_args, read_lines
 
 def equation_(line):
@@ -47,41 +46,53 @@ def parse_input(lines):
     "Parse the input into a list of rules and a list of updates."
     return [equation_(line) for line in lines]
 
-def is_valid_step(result, current, numbers):
+def is_valid_step(result, current, numbers, operators):
     "Return True if the step is valid, False otherwise."
     if current > result: return False
     if len(numbers) == 0: return result == current
 
-    new1 = numbers[0] + current
-    new2 = numbers[0] * current
-    return is_valid_step(result, new1, numbers[1:]) or is_valid_step(result, new2, numbers[1:])
+    for op in operators:
+        if op == '+':
+            new = current + numbers[0]
+        elif op == '*':
+            new = current * numbers[0]
+        elif op == '|':
+            new = int(str(current) + str(numbers[0]))
+        if is_valid_step(result, new, numbers[1:], operators):
+            return True
+    return False
 
-def is_valid_equation(result, numbers):
+def is_valid_equation(result, numbers, operators):
     "Return True if the equation is valid, False otherwise."
     current = numbers[0]
-    return is_valid_step(result, current, numbers[1:])
+    return is_valid_step(result, current, numbers[1:], operators)
+
+def valid_equations(equations, operators):
+    "Return a list of valid equations."
+    valid = [eq for eq in equations if is_valid_equation(*eq, operators)]
+    # print(f"Part 1: {len(equations)}")
+    # for i, eq in enumerate(equations):
+    #     print(f"{i+1:2}: {eq}")
+    # print(f"Part 1: {len(valid)}")
+    # for i, eq in enumerate(valid):
+    #     print(f"{i+1:2}: {eq}")
+    return valid
 
 def part1(lines):
-    "Solution to part 1. 143 for the test input."
+    "Solution to part 1. 3749 for the test input."
+    operators = ['+', '*']
     equations = [equation_(line) for line in lines]
-    valid = [eq for eq in equations if is_valid_equation(*eq)]
-    print(f"Part 1: {len(equations)}")
-    for i, eq in enumerate(equations):
-        print(f"{i+1:2}: {eq}")
-    print(f"Part 1: {len(valid)}")
-    for i, eq in enumerate(valid):
-        print(f"{i+1:2}: {eq}")
+    valid = valid_equations(equations, operators)
     total = sum([v[0] for v in valid])
     print(f"Part 1: {total}")
 
-def part2(rule_sets, updates):
-    "Solution to part 2. 123 for the test input."
-    updates = [u for u in updates if not is_valid_update(rule_sets, u)]
-    fixed_updates = [validate_update(rule_sets, u) for u in updates]
-    centers = [center_value(u) for u in fixed_updates]
-    # print(f"Fixed updates: {fixed_updates}")
-    # print(f"Center values: {centers}")
-    print(f"Part 2: {sum(centers)}")
+def part2(lines):
+    "Solution to part 2. 11387 for the test input."
+    operators = ['+', '*', '|']
+    equations = [equation_(line) for line in lines]
+    valid = valid_equations(equations, operators)
+    total = sum([v[0] for v in valid])
+    print(f"Part 2: {total}")
 
 args = parse_args("Advent of Code 2024 - Day 7", "aoc2024-day7-input-test.txt")
 lines = read_lines(args.input)
@@ -89,7 +100,7 @@ t0 = time.time()
 part1(lines)
 t1 = time.time() - t0
 t0 = time.time()
-# part2(lines)
+part2(lines)
 t2 = time.time() - t0
 print(f"Part 1: {t1:.1f} sec")
 print(f"Part 2: {t2:.1f} sec")
