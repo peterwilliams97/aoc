@@ -29,22 +29,12 @@
     Irrelevant characters have again been replaced with . in the above diagram. Within the X, each
     MAS can be written forwards or backwards.
 """
-import re
-from types import SimpleNamespace as ns
-from common import parse_args, read_lines
+from common import parse_args, read_rows, char_positions
 
-def char_coords(text, char):
-    "Return the y,x coordinates of `char` in `text`."
-    coords = set()
-    for y, row in enumerate(text):
-        for x, c in enumerate(row):
-            if c == char:
-                coords.add((y, x))
-    return coords
 
 def part1(rows):
     "Solution to part 1. 18 for the test input."
-    X, M, A, S = [char_coords(rows, c) for c in "XMAS"]
+    X, M, A, S = [char_positions(rows, c) for c in "XMAS"]
 
     base_spans = [(0, 1), (1, 0), (1, 1), (1, -1)]
     spans = base_spans
@@ -62,7 +52,7 @@ def part1(rows):
 
 def part2(rows):
     "Solution to part 2. 1 for aoc2024-day3-input-test2.txt."
-    M, A, S = [char_coords(rows, c) for c in "MAS"]
+    M, A, S = [char_positions(rows, c) for c in "MAS"]
     matches = []
     for y, x in A:
         n = 0
@@ -79,7 +69,6 @@ def part2(rows):
     print(f"Part 2: {len(matches)}")
 
 args = parse_args("Advent of Code 2024 - Day 4", "aoc2024-day4-input-test.txt")
-lines = read_lines(args.input)
-rows = [list(line) for line in lines]
+rows = read_rows(args.input)
 part1(rows)
 part2(rows)

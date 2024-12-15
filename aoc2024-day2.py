@@ -18,7 +18,6 @@
     8 6 4 4 1: Unsafe because 4 4 is neither an increase or a decrease.
     1 3 6 7 9: Safe because the levels are all increasing by 1, 2, or 3.
 
-
     Part 2:
     ------
     Now, the same rules apply as before, except if removing a single level from an unsafe report
