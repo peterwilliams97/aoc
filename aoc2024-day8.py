@@ -100,15 +100,12 @@ def search(w, h, B, y0, x0, direction):
 def antinodes_(img):
     "Return pairs coordinates of antinodes."
     w, h = img.shape
-    yx = {}
-    xy = {}
-    for y in range(h):
-        for x in range(w):
-            if img[y, x] != 0:
-                if y not in yx: yx[y] = set()
-                if x not in xy: xy[x] = set()
-                yx[y].add(x)
-                xy[x].add(y)
+    points = set()
+    for y0 in range(h):
+        for x0 in range(w):
+            if img[y0, x0] != 0:
+                points.add((y0, x0))
+
     antinodes = set()
     def add_antinode(y, x):
         fit = 0 <= y < h and 0 <= x < w
@@ -116,23 +113,36 @@ def antinodes_(img):
             antinodes.add((y, x))
         return fit
 
-    y_keys = sorted(yx)
-    x_keys = sorted(xy)
-    for i, y in enumerate(y_keys):
-        for y1 in y_keys[i+1:]:
-            dy = y1 - y
-            for j, x in enumerate(x_keys):
-                for x1 in x_keys[j+1:]:
-                    dx = x1 - x
-                    if dx == 2 * dy or dy == 2 * dx:
-                        xlo = x - dx
-                        xhi = x1 + dx
-                        ylo = y - dy
-                        yhi = y1 + dy
-                        if add_antinode(ylo, xlo):
-                            print(f"    {[y,x]}, {[y1,x1]} -> {ylo, xlo}")
-                        if add_antinode(yhi, xhi):
-                            print(f"    {[y,x]}, {[y1,x1]} -> {yhi, xhi}")
+    sorted_points = sorted(points)
+    print(f"sorted_points={len(sorted_points)}")
+    for i, p in enumerate(sorted_points):
+        print(f"{i:4}: {p}")
+    pairs = set()
+    for i, p0 in enumerate(sorted_points):
+        for p1 in sorted_points[i+1:]:
+            y0, x0 = p0
+            y1, x1 = p1
+            if y1 < y0:
+                p0, p1 = p1, p0
+            pairs.add((p0, p1))
+
+    sorted_pairs = sorted(pairs)
+    print(f"sorted_pairs={len(sorted_pairs)}")
+    for i, p in enumerate(sorted_pairs):
+        print(f"{i:4}: {p}")
+    for (y0, x0), (y1, x1) in sorted(pairs):
+        dy = y1 - y0
+        dx = x1 - x0
+        xlo = x0 - dx
+        xhi = x1 + dx
+        ylo = y0 - dy
+        yhi = y1 + dy
+        elements = []
+        if add_antinode(ylo, xlo):
+           elements.append((ylo, xlo))
+        if add_antinode(yhi, xhi):
+            elements.append
+        print(f"    {[y0,x0]}, {[y1,x1]} -> {elements}")
     return antinodes
 
 MARK = 9
@@ -167,7 +177,7 @@ def part1(rows):
         antinodes = antinodes_(img_k)
         valids = antinodes - exclusions[k]
         print(f"Antinodes {k}: {len(antinodes)}->{len(valids)} {antinodes} -> {valids}")
-        antinodes = valids
+        # antinodes = valids
         all_antinodes.update(antinodes)
         for y, x in antinodes:
             img_k[y,x] = MARK
