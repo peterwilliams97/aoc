@@ -14,14 +14,19 @@ def parse_args(description, default_input):
     return parser.parse_args()
 
 def read_text(filename):
-    return open(filename).read()
+    text = open(filename).read()
+    text = text.strip()
+    return text
 
 def read_lines(filename):
     return read_text(filename).splitlines()
 
 def read_rows(filename):
     lines = read_lines(filename)
-    return [list(line) for line in lines]
+    rows = [list(line) for line in lines]
+    for i, row in enumerate(rows):
+        assert len(row) == len(rows[0]), f"Rows have different lengths\nrow[0]={rows[i-1]}\nrow[{i}]={row}"
+    return rows
 
 def char_positions(rows, char):
     "Returns `positions` where positions((y,x)) exists if rows[y][x] == `char`."
