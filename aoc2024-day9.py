@@ -68,16 +68,20 @@
 import time
 from common import parse_args, read_text
 
-def extract_numbers(text):
-    "Extract a list of numbers from the text."
+def numbers_(text):
+    "Extracts the digits in `text` and returns them as a list of integers."
     return [int(c) for c in text if c.isdigit()]
 
-def show(blocks):
-    "Show the blocks in a readable format."
-    return "".join(str(b) if b != -1 else "." for b in blocks)
+def blocks_(numbers):
+    """
+    Unpacks a list of numbers into a list of blocks, where each block is either a file ID or a
+    free space indicator.
+    `numbers` is a list of integers where even-indexed elements represent the number of times to
+    repeat the file ID (calculated as the index divided by 2), and odd-indexed elements represent
+    the number of times to repeat the free space indicator (-1).
 
-def unpack(numbers):
-    "Unpack a list of numbers into a list of tuples of (file_id, length)."
+    Returns: A list of integers where each integer is either a file ID or -1 indicating free space.
+    """
     blocks = []
     for i, v in enumerate(numbers):
         if i % 2 == 0:
@@ -86,15 +90,34 @@ def unpack(numbers):
         else:
             for _ in range(v):
                 blocks.append(-1) # free space
-    # assert len(blocks) < 100, (numbers, len(blocks), blocks)
     return blocks
+
+def show(blocks):
+    """
+    Converts a list of blocks into a string representation. If a block has a value of -1, it is
+    represented as a dot ('.'). Otherwise, the block value is converted to a string.
+    """
+    return "".join(str(b) if b != -1 else "." for b in blocks)
 
 def checksum_(blocks):
     "Calculate the checksum of the blocks."
     return sum(i * v for i, v in enumerate(blocks) if v != -1)
 
 def clusters_gaps(blocks):
-    "Find the clusters of free space."
+    """
+    Analyzes a list of blocks and separates them into clusters and gaps.
+
+    A cluster is a sequence of consecutive blocks with the same value (except -1).
+    A gap is a sequence of consecutive blocks with the value -1.
+
+    Args:
+        blocks (list): A list of integers representing blocks.
+
+    Returns:
+        tuple: A tuple containing two lists:
+            - clusters (list of lists): Each inner list represents a cluster with the format [(length, value)].
+            - gaps (list): Each element represents the length of a gap.
+    """
     # print(f"cluster_gaps {show(blocks)}")
     clusters, gaps = [], []
 
@@ -117,6 +140,21 @@ def clusters_gaps(blocks):
     return clusters, gaps
 
 def add_cluster(clusters, gaps, i, c):
+    """
+    Inserts cluster `c` into `gaps`[`i`] and updates the `clusters` and `gaps` lists.
+
+    Parameters:
+    clusters (list of lists): A list where each element is a list of clusters.
+    gaps (list of int): A list of gap sizes.
+    i (int): The index of the gap where the cluster should be inserted.
+    c (tuple): The cluster to be inserted, represented as a tuple (n, _), where `n` is the size of the cluster.
+
+    Raises:
+    AssertionError: If the size of the cluster `n` is greater than the gap size at index `i`.
+
+    Modifies:
+    The function modifies the `clusters` and `gaps` lists in place by adding the cluster `c` to `clusters[i]` and reducing `gaps[i]` by the size of the cluster `n`.
+    """
     "insert cluster `c` in `gaps`[`i`]"
     n, _ = c
     assert n <= gaps[i], (n, gaps[i])
@@ -187,18 +225,18 @@ def part2(blocks):
 args = parse_args("Advent of Code 2024 - Day 9", "aoc2024-day9-input-test.txt")
 text = read_text(args.input)
 # text = "12345"
-numbers = extract_numbers(text)
+numbers = numbers_(text)
 print(f"{len(numbers)} numbers")
 # print(f"numbers: {numbers}")
 # assert False, numbers
-blocks = unpack(numbers)
+blocks = blocks_(numbers)
 
 print(f"{len(blocks)} blocks")
 # print(f"blocks: {show(blocks)}")
 t0 = time.time()
-# part1(blocks)
+part1(blocks)
 t1 = time.time() - t0
-# blocks = unpack(numbers)
+blocks = blocks_(numbers)
 t0 = time.time()
 part2(blocks)
 t2 = time.time() - t0
