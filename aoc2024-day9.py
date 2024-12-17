@@ -66,6 +66,7 @@
 
 """
 import time
+from types import SimpleNamespace as ns
 from common import parse_args, read_text
 
 def numbers_(text):
@@ -92,6 +93,8 @@ def blocks_(numbers):
                 blocks.append(-1) # free space
     return blocks
 
+def cluster_(n, v): return ns(n=n, v=v)
+
 def show(blocks):
     """
     Converts a list of blocks into a string representation. If a block has a value of -1, it is
@@ -102,6 +105,9 @@ def show(blocks):
 def checksum_(blocks):
     "Calculate the checksum of the blocks."
     return sum(i * v for i, v in enumerate(blocks) if v != -1)
+
+
+
 
 def clusters_gaps(blocks):
     """
@@ -123,7 +129,9 @@ def clusters_gaps(blocks):
 
     def add(n, v):
         if v == -1: gaps.append(n)
-        else: clusters.append([(n,v)])
+        else:
+            c = cluster_(n, v)
+            clusters.append([c])
 
     n, v0 = 1, blocks[0]
     for v in blocks[1:]:
@@ -139,39 +147,43 @@ def clusters_gaps(blocks):
 
     return clusters, gaps
 
-def add_cluster(clusters, gaps, i, c):
-    """
-    Inserts cluster `c` into `gaps`[`i`] and updates the `clusters` and `gaps` lists.
+class RunList:
+    def __init__(self, blocks):
+        clusters, gaps = self.runs(blocks)
+        self.clusters = clusters
+        self.gaps = gaps
 
-    Parameters:
-    clusters (list of lists): A list where each element is a list of clusters.
-    gaps (list of int): A list of gap sizes.
-    i (int): The index of the gap where the cluster should be inserted.
-    c (tuple): The cluster to be inserted, represented as a tuple (n, _), where `n` is the size of the cluster.
+    def runs(self, blocks):
+        return clusters_gaps(blocks)
 
-    Raises:
-    AssertionError: If the size of the cluster `n` is greater than the gap size at index `i`.
+    def add_cluster(self, i, c):
+        """
+        Inserts cluster `c` into `gaps`[`i`] and updates the `clusters` and `gaps` lists.
 
-    Modifies:
-    The function modifies the `clusters` and `gaps` lists in place by adding the cluster `c` to `clusters[i]` and reducing `gaps[i]` by the size of the cluster `n`.
-    """
-    "insert cluster `c` in `gaps`[`i`]"
-    n, _ = c
-    assert n <= gaps[i], (n, gaps[i])
-    gaps[i] -= n
-    clusters[i].append(c)
+        Parameters:
+        i: The index of the gap where the cluster should be inserted.
+        c: The cluster to be insertedr.
 
-def unpack_clusters(clusters, gaps):
-    "Unpack the clusters and gaps into a list of blocks."
-    blocks = []
-    for i, c in enumerate(clusters):
-        for m, v in c:
-            for _ in range(m):
-                blocks.append(v)
-        if i < len(gaps):
-            for _ in range(gaps[i]):
-                blocks.append(-1)
-    return blocks
+
+        Modifies:
+        The function modifies the `clusters` and `gaps` lists in place by adding the cluster `c` to
+        `clusters[i]` and reducing `gaps[i]` by the size of gthe cluster `n`.
+        """
+        assert c.n <= self.gaps[i], (c.n, self.gaps[i])
+        self.gaps[i] -= c.n
+        self.clusters[i].append(c)
+
+    def unpack_clusters(self):
+        "Unpack the clusters and gaps into a list of blocks."
+        blocks = []
+        for i, clist in enumerate(self.clusters):
+            for c in clist:
+                for _ in range(c.n):
+                    blocks.append(c.v)
+            if i < len(self.gaps):
+                for _ in range(self.gaps[i]):
+                    blocks.append(-1)
+        return blocks
 
 def part1(blocks):
     "Solution to part 1. 1928 for the test input."
@@ -195,30 +207,30 @@ def part1(blocks):
     print(f"Part 1: {checksum}")
 
 def part2(blocks):
-    "Solution to part 2. 2858 for the test input.  6182186920537"
+    "Solution to part 2. 2858 for the test input. 6182186920537"
 
-    clusters, gaps = clusters_gaps(blocks)
+    # clusters, gaps = clusters_gaps(blocks)
+    run_list = RunList(blocks)
     # print(f"clusters: {clusters}")
     # print(f"gaps: {gaps}")
 
-    n = len(clusters) - 1
+    n = len(run_list.clusters) - 1
     while n >= 0:
         # print(f"{n:4}: {show(unpack_clusters(clusters, gaps))}")
-        clist = clusters[n]
+        clist = run_list.clusters[n]
         removed = []
         for j, c in enumerate(clist):
-            for i, g in enumerate(gaps[:n]):
-                if g >= c[0]:
-                    add_cluster(clusters, gaps, i, c)
+            for i, g in enumerate(run_list.gaps[:n]):
+                if g >= c.n:
+                    run_list.add_cluster(i, c)
                     removed.append(j)
                     break
-        clist = [(m, -1 if j in removed else v) for j, (m,v) in enumerate(clist)]
-        clusters[n] = clist
+        clist = [cluster_(c.n, -1) if j in removed else c for j, c in enumerate(clist)]
+        run_list.clusters[n] = clist
         n -= 1
 
-    blocks = unpack_clusters(clusters, gaps)
+    blocks = run_list.unpack_clusters()
     checksum = checksum_(blocks)
-
 
     print(f"Part 2: {checksum}")
 
