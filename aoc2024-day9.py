@@ -173,7 +173,7 @@ class RunList:
         self.gaps[i] -= c.n
         self.clusters[i].append(c)
 
-    def unpack_clusters(self):
+    def blocks(self):
         "Unpack the clusters and gaps into a list of blocks."
         blocks = []
         for i, clist in enumerate(self.clusters):
@@ -229,7 +229,7 @@ def part2(blocks):
         run_list.clusters[n] = clist
         n -= 1
 
-    blocks = run_list.unpack_clusters()
+    blocks = run_list.blocks()()
     checksum = checksum_(blocks)
 
     print(f"Part 2: {checksum}")
