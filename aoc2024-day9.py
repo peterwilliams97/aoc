@@ -106,9 +106,6 @@ def checksum_(blocks):
     "Calculate the checksum of the blocks."
     return sum(i * v for i, v in enumerate(blocks) if v != -1)
 
-
-
-
 def clusters_gaps(blocks):
     """
     Analyzes a list of blocks and separates them into clusters and gaps.
@@ -148,22 +145,29 @@ def clusters_gaps(blocks):
     return clusters, gaps
 
 class RunList:
+    """
+    clusters: A list of clusters, where each cluster is a list of blocks.
+    gaps: A list of gaps, where each gap represents the number of empty spaces between clusters.
+    """
     def __init__(self, blocks):
         clusters, gaps = self.runs(blocks)
         self.clusters = clusters
         self.gaps = gaps
 
     def runs(self, blocks):
+        """
+        Processes the `blocks` to identify and return clusters and gaps.
+        Returns: A list of clusters and gaps identified in the blocks.
+        """
         return clusters_gaps(blocks)
 
-    def add_cluster(self, i, c):
+    def insert_cluster(self, i, c):
         """
         Inserts cluster `c` into `gaps`[`i`] and updates the `clusters` and `gaps` lists.
 
         Parameters:
         i: The index of the gap where the cluster should be inserted.
-        c: The cluster to be insertedr.
-
+        c: The cluster to be inserted.
 
         Modifies:
         The function modifies the `clusters` and `gaps` lists in place by adding the cluster `c` to
@@ -172,6 +176,30 @@ class RunList:
         assert c.n <= self.gaps[i], (c.n, self.gaps[i])
         self.gaps[i] -= c.n
         self.clusters[i].append(c)
+
+    def move_cluster(self, clist, n):
+        """
+        Moves clusters in `clist` to the `self.clusters` list at index `n` based on certain conditions.
+
+        Args:
+            clist (list): A list of cluster objects to be moved.
+            n (int): The index in `self.clusters` where the clusters should be moved.
+
+        The function iterates over the clusters in `clist` and checks if they can be added to the
+        `self.clusters` list at index `n` based on the gaps in `self.gaps`. If a cluster can be
+         added, it is added to `self.clusters` and marked for removal from `clist`. After
+         processing, the clusters in `clist` that were moved are replaced with new cluster objects
+         with `n` as their value and `-1` as their second attribute.
+        """
+        removed = []
+        for j, c in enumerate(clist):
+            for i, g in enumerate(self.gaps[:n]):
+                if g >= c.n:
+                    self.insert_cluster(i, c)
+                    removed.append(j)
+                    break
+        clist = [cluster_(c.n, -1) if j in removed else c for j, c in enumerate(clist)]
+        self.clusters[n] = clist
 
     def blocks(self):
         "Unpack the clusters and gaps into a list of blocks."
@@ -217,19 +245,10 @@ def part2(blocks):
     n = len(run_list.clusters) - 1
     while n >= 0:
         # print(f"{n:4}: {show(unpack_clusters(clusters, gaps))}")
-        clist = run_list.clusters[n]
-        removed = []
-        for j, c in enumerate(clist):
-            for i, g in enumerate(run_list.gaps[:n]):
-                if g >= c.n:
-                    run_list.add_cluster(i, c)
-                    removed.append(j)
-                    break
-        clist = [cluster_(c.n, -1) if j in removed else c for j, c in enumerate(clist)]
-        run_list.clusters[n] = clist
+        run_list.move_cluster(run_list.clusters[n], n)
         n -= 1
 
-    blocks = run_list.blocks()()
+    blocks = run_list.blocks()
     checksum = checksum_(blocks)
 
     print(f"Part 2: {checksum}")
