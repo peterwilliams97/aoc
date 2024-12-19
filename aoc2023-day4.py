@@ -24,10 +24,9 @@
     card they copied. So, if you win a copy of card 10 and it has 5 matching numbers, it would then
     win a copy of the same cards that the original card 10 won: cards 11, 12, 13, 14, and 15.
     This process repeats until none of the copies cause you to win any more cards.
-
 """
-from types import SimpleNamespace
 import re
+from common import MyNamespace as ns
 
 RE_NUMBERS = re.compile(r"\d+")
 def numbers_(text):
@@ -38,7 +37,7 @@ def decode_line(line):
     _, values_str = line.split(":")
     win_str, mine_str = values_str.split("|")
     win, mine = numbers_(win_str), numbers_(mine_str)
-    return SimpleNamespace(win=win, mine=mine)
+    return ns(win=win, mine=mine)
 
 def wins_(card):
     """Return the number of elements in `mine` that are in `win`."""

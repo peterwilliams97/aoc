@@ -27,8 +27,7 @@
     a do() instruction.
 """
 import re
-from types import SimpleNamespace as ns
-from common import parse_args, read_text
+from common import parse_args, read_text, MyNamespace as ns
 
 RE_MUL = re.compile(r"mul\((\d+),(\d+)\)")
 RE_DO = re.compile(r"do(?:n't)?\(\)")

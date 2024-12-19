@@ -13,8 +13,8 @@ This repository contains Python solutions for the Advent of Code challenges.
 ## Utility Files
 
 - `common.py`: Common functions used across multiple solutions
-- `dc.py`: Likely a utility file (purpose unclear from filename)
-- `ns.py`: Likely a utility file (purpose unclear from filename)
+- `dc.py`: Shows how @dataclass works.
+- `ns.py`: Shows how SimpleNamespace works.
 
 ## Running Solutions
 

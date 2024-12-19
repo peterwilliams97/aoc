@@ -3,6 +3,7 @@
 """
 import re
 import argparse
+from types import SimpleNamespace
 
 RE_NUMBERS = re.compile(r"\d+")
 def numbers_(text):
@@ -36,3 +37,10 @@ def char_positions(rows, char):
             if c == char:
                 positions.add((y, x))
     return positions
+
+class MyNamespace(SimpleNamespace):
+    "SimpleNamespace with a simpler str/repr."
+    def __str__(self):
+        return f"{self.__dict__}"
+    def __repr__(self):
+        return f"{self.__dict__}"
