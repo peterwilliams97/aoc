@@ -36,23 +36,21 @@ def blink_once(numbers):
     for n in numbers: new_numbers.extend(apply_rule(n))
     return new_numbers
 
-numbers_cache = {}
 
-def blink_once_cache(number_counts):
+def blink_once_cache(cache, number_counts):
     """
-    Processes a dictionary of number counts and updates a global cache with new numbers derived from
-    the keys.
-
-    number_counts: A dictionary where keys are numbers and values are their counts.
-    Returns: A new dictionary with updated number counts based on the transformations and cache.
+    Returns a new dict of {number: count} after applying the rules to each number in the input dict.
+    `cache` is a dictionary of {number: [new_number]} where `number` is a number and `new_number` is
+    the result of applying the rules to `number`.
+    `number_counts` is a dictionary of {number: count} where `number` is a number and `count` is the
+    number of times that number appears in the current state of the stones.
     """
-    global numbers_cache
     for n in number_counts.keys():
-        if n not in numbers_cache: numbers_cache[n] = apply_rule(n)
+        if n not in cache: cache[n] = apply_rule(n)
 
     new_number_counts = {}
     for n, c in number_counts.items():
-        for v in numbers_cache[n]:
+        for v in cache[n]:
             if v in new_number_counts: new_number_counts[v] += c
             else: new_number_counts[v] = c
     return new_number_counts
@@ -67,7 +65,8 @@ def part2(numbers):
     "Solution to part 2. (232454623677743)"
     blinks = 75
     number_counts = {n: 1 for n in numbers}
-    for _ in range(blinks): number_counts = blink_once_cache(number_counts)
+    numbers_cache = {}
+    for _ in range(blinks): number_counts = blink_once_cache(numbers_cache, number_counts)
     print(f"Part 2: {sum(number_counts.values())}")
 
 args = parse_args("Advent of Code 2024 - Day 11", "aoc2024-day11-input-test.txt")
