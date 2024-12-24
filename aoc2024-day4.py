@@ -68,7 +68,7 @@ def part2(rows):
             matches.append((y,x))
     print(f"Part 2: {len(matches)}")
 
-args = parse_args("Advent of Code 2024 - Day 4", "aoc2024-day4-input-test.txt")
+args = parse_args("Advent of Code 2024 - Day 4", "problems/aoc2024-day4-input-test.txt")
 rows = read_rows(args.input)
 part1(rows)
 part2(rows)

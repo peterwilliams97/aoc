@@ -18,7 +18,6 @@
 
     Part 2:
     How many stones would you have after blinking a total of 75 times?
-
 """
 import time
 from common import parse_args, read_text, numbers_
@@ -35,7 +34,6 @@ def blink_once(numbers):
     new_numbers = []
     for n in numbers: new_numbers.extend(apply_rule(n))
     return new_numbers
-
 
 def blink_once_cache(cache, number_counts):
     """
@@ -69,7 +67,7 @@ def part2(numbers):
     for _ in range(blinks): number_counts = blink_once_cache(numbers_cache, number_counts)
     print(f"Part 2: {sum(number_counts.values())}")
 
-args = parse_args("Advent of Code 2024 - Day 11", "aoc2024-day11-input-test.txt")
+args = parse_args("Advent of Code 2024 - Day 11", "problems/aoc2024-day11-input-test.txt")
 text = read_text(args.input)
 numbers = numbers_(text)
 t0 = time.time()

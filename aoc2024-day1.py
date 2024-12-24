@@ -17,6 +17,7 @@
     Calculate a total similarity score by adding up each number in the left list after multiplying
     it by the number of times that number appears in the right list.
 """
+import time
 from common import parse_args, read_lines, numbers_
 
 def part1(lines):
@@ -36,7 +37,13 @@ def part2(lines):
     similiarities = [v * right_counts.get(v, 0) for v in columns[0]]
     print(f"Part 2: {sum(similiarities)}")
 
-args = parse_args("Advent of Code 2024 - Day 1", "aoc2024-day1-input-test.txt")
+args = parse_args("Advent of Code 2024 - Day 1", "problems/aoc2024-day1-input-test.txt")
 lines = read_lines(args.input)
+t0 = time.time()
 part1(lines)
+t1 = time.time() - t0
+t0 = time.time()
 part2(lines)
+t2 = time.time() - t0
+print(f"Part 1: {t1:.1f} sec")
+print(f"Part 2: {t2:.1f} sec")

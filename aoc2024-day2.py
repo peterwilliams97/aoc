@@ -63,7 +63,7 @@ def part2(lines):
     valids = [is_valid_tol(row) for row in rows]
     print(f"Part 2: {sum(valids)}")
 
-args = parse_args("Advent of Code 2024 - Day 2", "aoc2024-day2-input-test.txt")
+args = parse_args("Advent of Code 2024 - Day 2", "problems/aoc2024-day2-input-test.txt")
 lines = read_lines(args.input)
 part1(lines)
 part2(lines)

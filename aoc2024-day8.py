@@ -47,6 +47,8 @@ import time
 import numpy as np
 from common import parse_args, read_rows
 
+VERBOSE = False
+
 def antinodes_(img, extend):
     "Return pairs coordinates of antinodes."
     w, h = img.shape
@@ -64,9 +66,10 @@ def antinodes_(img, extend):
         return fit
 
     sorted_points = sorted(points)
-    print(f"sorted_points={len(sorted_points)}")
-    for i, p in enumerate(sorted_points):
-        print(f"{i:4}: {p}")
+    if VERBOSE:
+        print(f"sorted_points={len(sorted_points)}")
+        for i, p in enumerate(sorted_points):
+            print(f"{i:4}: {p}")
     pairs = set()
     for i, p0 in enumerate(sorted_points):
         for p1 in sorted_points[i+1:]:
@@ -77,9 +80,10 @@ def antinodes_(img, extend):
             pairs.add((p0, p1))
 
     sorted_pairs = sorted(pairs)
-    print(f"sorted_pairs={len(sorted_pairs)}")
-    for i, p in enumerate(sorted_pairs):
-        print(f"{i:4}: {p}")
+    if VERBOSE:
+        print(f"sorted_pairs={len(sorted_pairs)}")
+        for i, p in enumerate(sorted_pairs):
+            print(f"{i:4}: {p}")
     for (y0, x0), (y1, x1) in sorted(pairs):
         dy = y1 - y0
         dx = x1 - x0
@@ -106,7 +110,7 @@ def antinodes_(img, extend):
                 break
             if not extend:
                 break
-        print(f"    {[y0,x0]}, {[y1,x1]} -> {elements}")
+        if VERBOSE: print(f"    {[y0,x0]}, {[y1,x1]} -> {elements}")
     return antinodes
 
 MARK = 9
@@ -142,8 +146,9 @@ def solve(rows, extend):
                     sym_num[sym] = current
                 num = sym_num[sym]
                 img[y, x] = num
-    print(f"img={img.shape}\n{img}")
-    print(f"sym_num={sym_num}")
+    if VERBOSE:
+        print(f"img={img.shape}\n{img}")
+        print(f"sym_num={sym_num}")
     vals = sorted(sym_num.values())
     originals = {}
     for k in vals:
@@ -156,20 +161,18 @@ def solve(rows, extend):
         img_k = (img == k).astype(int)
         antinodes = antinodes_(img_k, extend)
         valids = antinodes - exclusions[k]
-        print(f"Antinodes {k}: {len(antinodes)}->{len(valids)} {antinodes} -> {valids}")
-        # antinodes = valids
+        if VERBOSE: print(f"Antinodes {k}: {len(antinodes)}->{len(valids)} {antinodes} -> {valids}")
         all_antinodes.update(antinodes)
         for y, x in antinodes:
             img_k[y,x] = MARK
-        print(f"img_{k}=\n{img_k}")
+        if VERBOSE: print(f"img_{k}=\n{img_k}")
     for y, x in all_antinodes:
         img[y, x] = MARK
-    print(f"img=\n{img}")
+    if VERBOSE: print(f"img=\n{img}")
 
     for i, row in enumerate(img):
         n = sum(row!=0)
-        # m = len(ANSWER[i]) - ANSWER[i].count(".")
-        print(f"{i:2}: {n} {row}")
+        if VERBOSE:  print(f"{i:2}: {n} {row}")
     if extend:
         return sum([sum(row!=0) for row in img])
     return len(all_antinodes)
@@ -184,7 +187,7 @@ def part2(rows):
     n = solve(rows, True)
     print(f"Part 2: {n}")
 
-args = parse_args("Advent of Code 2024 - Day 8", "aoc2024-day8-input-test.txt")
+args = parse_args("Advent of Code 2024 - Day 8", "problems/aoc2024-day8-input-test.txt")
 rows = read_rows(args.input)
 t0 = time.time()
 part1(rows)

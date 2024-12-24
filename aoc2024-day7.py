@@ -94,7 +94,7 @@ def part2(lines):
     total = sum([v[0] for v in valid])
     print(f"Part 2: {total}")
 
-args = parse_args("Advent of Code 2024 - Day 7", "aoc2024-day7-input-test.txt")
+args = parse_args("Advent of Code 2024 - Day 7", "problems/aoc2024-day7-input-test.txt")
 lines = read_lines(args.input)
 t0 = time.time()
 part1(lines)

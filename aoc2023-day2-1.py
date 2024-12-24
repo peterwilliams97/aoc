@@ -1,11 +1,10 @@
 """
     https://adventofcode.com/2023/day/2
 """
+import time
 import re
 import math
-
-INPUT = "aoc2023-day2-input.txt"
-# INPUT = "aoc2023-day2-input-test.txt"
+from common import read_lines, parse_args
 
 KEYS = ["red", "green", "blue"]
 MAX_CUBES = {"red": 12, "green": 13, "blue": 14}
@@ -21,12 +20,12 @@ def parse_value(value_str):
 
 def parse_group(game):
     values = [parse_value(v) for v in game.split(",")]
-    return {k: v for v, k in values}  
+    return {k: v for v, k in values}
 
 def parse_line(line):
     title_str, game_str = line.split(":")
-    draws_str = game_str.split(";")  
-    game_id = int(RE_TITLE.search(title_str).group(1)) 
+    draws_str = game_str.split(";")
+    game_id = int(RE_TITLE.search(title_str).group(1))
     draws = [parse_group(drw) for drw in draws_str]
     return game_id, draws
 
@@ -34,7 +33,7 @@ def max_cubes(draws):
     k_max = {}
     for value in draws:
         for k, v in value.items():
-            k_max[k] = max(k_max.get(k, 0), v)   
+            k_max[k] = max(k_max.get(k, 0), v)
     return {k: v for k, v in k_max.items()}
 
 def allowed_max(total):
@@ -46,11 +45,7 @@ def show(draw):
 def power_(draw):
     return math.prod(draw.values())
 
-lines = open(INPUT).read().splitlines()
-
-IS_PART1 = False
-
-if IS_PART1:
+def part1(lines):
     print(f"Max cubes: {MAX_CUBES}")
     allowed_ids = []
     for i, line in enumerate(lines):
@@ -60,13 +55,13 @@ if IS_PART1:
         if allowed:
             allowed_ids.append(game_id)
 
-        if i < 5 or allowed or True: 
+        if i < 5 or allowed or True:
             print(f"{i:4}: Game {game_id:2}:: {allowed} total={show(draw_max)} draws={[show(d) for d in draws]}")
 
     id_sum = sum(allowed_ids)
     print(f"Sum of allowed game IDs: {id_sum} {allowed_ids}")
 
-else:
+def part2(lines):
     power_list = []
     for i, line in enumerate(lines):
         game_id, draws = parse_line(line)
@@ -79,3 +74,14 @@ else:
     power_sum = sum(power_list)
     print(f"Sum of powers: {power_sum} {power_list}")
 
+args = parse_args("Advent of Code 2024 - Day 1", "aoc2023-day2-input-test.txt")
+lines = read_lines(args.input)
+
+t0 = time.time()
+part1(lines)
+t1 = time.time() - t0
+t0 = time.time()
+part2(lines)
+t2 = time.time() - t0
+print(f"Part 1: {t1:.1f} sec")
+print(f"Part 2: {t2:.1f} sec")

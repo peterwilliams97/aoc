@@ -127,7 +127,7 @@ def part2(chart):
 
     print(f"Part 2: {total}")
 
-args = parse_args("Advent of Code 2024 - Day 10", "aoc2024-day10-input-test.txt")
+args = parse_args("Advent of Code 2024 - Day 10", "problems/aoc2024-day10-input-test.txt")
 rows = read_rows(args.input)
 chart = np.array([[int(c) for c in row] for row in rows])
 t0 = time.time()

@@ -159,7 +159,7 @@ def part2(rule_sets, updates):
     # print(f"Center values: {centers}")
     print(f"Part 2: {sum(centers)}")
 
-args = parse_args("Advent of Code 2024 - Day 5", "aoc2024-day5-input-test.txt")
+args = parse_args("Advent of Code 2024 - Day 5", "problems/aoc2024-day5-input-test.txt")
 lines = read_lines(args.input)
 rule_sets, updates = parse_input(lines)
 part1(rule_sets, updates)

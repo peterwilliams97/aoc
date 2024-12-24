@@ -65,7 +65,7 @@ def part2(text):
     totals = [sum_total(text[span.i0:span.i1]) for span in spans if span.on]
     print(f"Part 2: {sum(totals)}")
 
-args = parse_args("Advent of Code 2024 - Day 3", "aoc2024-day3-input-test.txt")
+args = parse_args("Advent of Code 2024 - Day 3", "problems/aoc2024-day3-input-test.txt")
 text = read_text(args.input)
 part1(text)
 part2(text)

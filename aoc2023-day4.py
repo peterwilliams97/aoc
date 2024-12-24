@@ -26,14 +26,14 @@
     This process repeats until none of the copies cause you to win any more cards.
 """
 import re
-from common import MyNamespace as ns
+from common import MyNamespace as ns, parse_args
 
 RE_NUMBERS = re.compile(r"\d+")
 def numbers_(text):
     return [int(s) for s in RE_NUMBERS.findall(text)]
 
 def decode_line(line):
-    """ Return a tuple (name, values) from `line` such as the one above. """
+    """Return a tuple (name, values) from `line` such as the one above."""
     _, values_str = line.split(":")
     win_str, mine_str = values_str.split("|")
     win, mine = numbers_(win_str), numbers_(mine_str)
@@ -45,22 +45,16 @@ def wins_(card):
 
 def score_(wins):
     """n = number of elements in `mine` that are in `win`.
-       Returns 0 if n == 0. Return 2 ** (n - 1) if n > 0.
+       Return 2 ** (n - 1) if n > 0 or 0 otherwise.
     """
     if wins == 0: return 0
     return 2 ** (wins - 1)
 
 def score_line(line):
+    """Return the score of a card from a line of text."""
     card = decode_line(line)
     wins = wins_(card)
     return score_(wins)
-
-def parse_args():
-    import argparse
-    parser = argparse.ArgumentParser(description="Advent of Code 2023 Day 4 solution")
-    parser.add_argument('-i', '--input', default="aoc2023-day4-input-test.txt",
-                        help="Input file path")
-    return parser.parse_args()
 
 def part1(lines):
     "Solution to part 1. 13 for the test input."
@@ -78,7 +72,7 @@ def part2(lines):
             card_nums[j] += card_nums[i]
     print(f"Part 2: {sum(card_nums.values())}")
 
-args = parse_args()
+args = parse_args("Advent of Code 2023 - Day 4", "aoc2023-day4-input-test.txt")
 lines = open(args.input).read().splitlines()
 part1(lines)
 part2(lines)

@@ -103,7 +103,7 @@ def part2(rows):
                 obstructions.add(o)
     print(f"Part 2: {len(obstructions)}")
 
-args = parse_args("Advent of Code 2024 - Day 6", "aoc2024-day6-input-test.txt")
+args = parse_args("Advent of Code 2024 - Day 6", "problems/aoc2024-day6-input-test.txt")
 rows = read_rows(args.input)
 t0 = time.time()
 part1(rows)

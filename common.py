@@ -10,8 +10,15 @@ def numbers_(text):
     return [int(s) for s in RE_NUMBERS.findall(text)]
 
 def parse_args(description, default_input):
+    """Parses command-line arguments.
+        `description` is a Description of the program.
+        `default_input` is the path of default problem data file.
+    """
     parser = argparse.ArgumentParser(description=description)
-    parser.add_argument('-i', '--input', default=default_input, help="Input file path")
+    parser.add_argument('-i', '--input', default=default_input, help=f"Input file path (default: {default_input})")
+    parser.add_argument('-t', '--testing', action='store_true', help='Enable testing mode')
+    parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose output')
+
     return parser.parse_args()
 
 def read_text(filename):

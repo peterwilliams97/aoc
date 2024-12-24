@@ -246,7 +246,8 @@ def part1(blocks):
 
     checksum = checksum_(blocks)
 
-    print(f"{len(blocks)} blocks")
+    if VERBOSE:
+        rint(f"{len(blocks)} blocks")
     print(f"Part 1: {checksum}")
 
 def part2(blocks):
@@ -276,7 +277,7 @@ def part2(blocks):
     checksum = checksum_(blocks)
     print(f"Part 2: {checksum}")
 
-args = parse_args("Advent of Code 2024 - Day 9", "aoc2024-day9-input-test.txt")
+args = parse_args("Advent of Code 2024 - Day 9", "problems/aoc2024-day9-input-test.txt")
 text = read_text(args.input)
 numbers = numbers_(text)
 blocks = blocks_(numbers)
@@ -284,8 +285,9 @@ blocks = blocks_(numbers)
 if DEBUG:
     blocks = blocks[:100]
 
-print(f"{len(numbers)} numbers")
-print(f"{len(blocks)} blocks")
+if VERBOSE:
+    print(f"{len(numbers)} numbers")
+    print(f"{len(blocks)} blocks")
 
 t0 = time.time()
 part1(blocks.copy())
