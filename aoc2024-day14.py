@@ -129,7 +129,6 @@
     Predict the motion of the robots in your list within a space which is 101 tiles wide and 103
     tiles tall. What will the safety factor be after exactly 100 seconds have elapsed?
 
-
     --- Part Two ---
     During the bathroom break, someone notices that these robots seem awfully similar to ones built
     and used at the North Pole. If they're the same type of robots, they should have a hard-coded
@@ -137,16 +136,6 @@
     Christmas tree.
 
     What is the fewest number of seconds that must elapse for the robots to display the Easter egg?
-
-    Answer:
-
-
-
-
-    Part 1:
-
-    Part 2:
-
 """
 import time
 import re, os, sys
@@ -155,11 +144,8 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from common import parse_args, read_lines, MyNamespace as ns
 
-VERBOSE = False
-
 # p=0,4 v=3,-3
 RE_POS_VEL = re.compile(r"p=(-?\d+),(-?\d+)\s*v=(-?\d+),(-?\d+)")
-# RE_POS_VEL = re.compile(r"p=(-?\d+)")
 
 def robots_(line):
     "Return a tuple of 4 integers from a line."
@@ -168,7 +154,7 @@ def robots_(line):
     pv = tuple(map(int, m.groups()))
     return ns(pos=ns(x=pv[0], y=pv[1]), vel=ns(x=pv[2], y=pv[3]))
 
-def test_posvel_():
+def test_robots_():
     text = """
     p=0,4 v=3,-3
     p=6,3 v=-1,-3
@@ -190,7 +176,6 @@ def test_posvel_():
 
 def s(pv): return f"({pv.pos.x},{pv.pos.y})"
 def show(q): print(f"{len(q):4}: {' '.join(s(pv) for pv in q)}")
-
 
 IMAGE_DIR = "images-day14.8"
 os.makedirs(IMAGE_DIR, exist_ok=True)
@@ -258,27 +243,7 @@ def is_tree(w, h, posvels):
             if np.all(img[y:y+3, x:x+3]): return True
     return False
 
-INTERVAL_MSEC = 1_000
-
-def update_animation(frame, w, h, posvels, img, time_text):
-    found_tree = False
-    for i in range(NUM_SECS):
-        move(posvels, w, h)
-        ok = is_tree(w, h, posvels)
-        if ok:
-            print(f"Tree at frame {frame}:{i}")
-            found_tree = True
-            break
-        # print(f"{i+1:4}: {x:2},{y:2} > {w//TREE_RATIO:2},{h//TREE_RATIO:2}")
-    # if not found_tree:
-    #     print(f"No tree found by frame {frame}")
-    # #     exit(34)
-    img.set_array(np.ones((h, w), dtype=np.uint8) * 255)
-    for pv in posvels: img.get_array()[pv.pos.y, pv.pos.x] = 0
-    time_text.set_text(f"Time: {frame} s")
-    return img, time_text
-
-def part1(w, h, lines):
+def part1(w, h, lines, VERBOSE):
     "Solution to part 1. 12 for the test input. (230900224)"
     NUM_SECS = 100
     robots = [robots_(line) for line in lines]
@@ -288,8 +253,7 @@ def part1(w, h, lines):
     pos = [pv.pos for pv in robots]
     pos.sort(key=lambda p: (p.y, p.x))
 
-    w2 = w // 2
-    h2 = h // 2
+    w2, h2 = w // 2, h // 2
     print(f"w2={w2} h2={h2}")
     if VERBOSE:
         for p in pos:
@@ -315,8 +279,8 @@ def part1(w, h, lines):
     print(f"{len(q1) + len(q2)+ len(q3) + len(q4)} safe robots")
     print(f"Part 1: {len(q1) * len(q2) * len(q3) * len(q4)}")
 
-def part2(w, h, lines):
-    "Solution to part 2.  f (6532)"
+def part2(w, h, lines, VERBOSE):
+    "Solution to part 2.  (6532)"
     robots = [robots_(line) for line in lines]
     print(f"{len(robots)} robots {w}x{h}")
     print(f"{0:4}: {robots[0]}")
@@ -339,35 +303,12 @@ def part2(w, h, lines):
         last = i
         draw_img(i+1, w, h, robots)
         if tree_i < 0: tree_i = i
-
-    if False:
-        robots = [robots_(line) for line in lines]
-        # fig, ax = plt.subplots()
-        # img = ax.imshow(np.zeros((h, w), dtype=np.uint8), cmap='gray', vmin=0, vmax=255)
-        # text = ax.text(0.02, 0.95, '', transform=ax.transAxes, color='blue', fontsize=12)
-
-        fig, (ax_img, ax_text) = plt.subplots(2, 1, gridspec_kw={'height_ratios': [10, 1]})
-        img = ax_img.imshow(np.zeros((h, w), dtype=np.uint8), cmap='gray', vmin=0, vmax=255)
-        ax_img.axis('off')  # Hide the axes for the image
-
-        time_text = ax_text.text(0.5, 0.5, '', transform=ax_text.transAxes, ha='center', va='center', fontsize=12)
-        ax_text.axis('off')  # Hide the axes for the text
-
-        ani = animation.FuncAnimation(fig, update_animation, frames=NUM_SECS,
-                                    fargs=(w, h, robots, img, time_text),
-                                    interval=INTERVAL_MSEC, blit=True)
-
-        plt.show()
-        exit(44)
-
     print(f"Part 2: {tree_i}")
 
 args = parse_args("Advent of Code 2024 - Day 13", "problems/aoc2024-day14-input-test.txt")
 if args.testing:
-    test_posvel_()
+    test_robots_()
     exit(0)
-if args.verbose:
-    VERBOSE = True
 
 lines = read_lines(args.input)
 if args.input == "problems/aoc2024-day14-input-test.txt":
@@ -375,10 +316,10 @@ if args.input == "problems/aoc2024-day14-input-test.txt":
 else:
     w, h = 101, 103
 t0 = time.time()
-part1(w, h, lines)
+part1(w, h, lines, args.verbose)
 t1 = time.time() - t0
 t0 = time.time()
-part2(w, h, lines)
+part2(w, h, lines, args.verbose)
 t2 = time.time() - t0
 print(f"Part 1: {t1:.1f} sec")
 print(f"Part 2: {t2:.1f} sec")

@@ -1,0 +1,255 @@
+# HOW TO EVALUATE PROGRAMMING CODE
+
+Yyou must evaluate programming code based on the following criteria:
+
+## GOOD PROGRAMMING CRITERIA
+
+**9 Best Programming Practices in Python**
+
+As a Python programming judge for Advent of Code (AoC) solutions, here are the top 10 criteria I
+look for when evaluating programs, rated on a scale of 1 to 10:
+
+---
+
+### **1. Correctness (Mandatory)**
+- **What I Look For:** The solution produces the correct results for both the example inputs and the
+provided inputs.
+- **High Score Criteria:** Handles all edge cases and doesn't rely on assumptions not supported by
+the problem description.
+
+---
+
+### **2. Problem Solving Approach**
+- **What I Look For:** The thought process behind solving the problem is sound, creative, and
+demonstrates understanding.
+- **High Score Criteria:** Employs novel techniques or leverages mathematical insights to simplify
+the solution,
+
+---
+
+### **3. Efficiency**
+- **What I Look For:** The program executes efficiently, particularly for large or complex inputs.
+- **High Score Criteria:** Optimized algorithms (e.g., avoiding \(O(n^2)\) where \(O(n \log n)\) is
+possible), appropriate use of data structures, and minimal memory overhead.
+
+
+### **4. Readability**
+- **What I Look For:** Code is well-structured and easy to read.
+- **High Score Criteria:** Clear variable names, proper spacing, and logical organization. Avoids
+excessive nesting and clutter.
+
+---
+
+### **5. Conciseness**
+- **What I Look For:** The solution avoids unnecessary verbosity while remaining clear.
+- **High Score Criteria:** Uses Pythonic idioms (e.g., list comprehensions, `zip`, `enumerate`)
+effectively without sacrificing readability.
+
+---
+
+### **6. Modularity**
+- **What I Look For:** The solution breaks the problem into functions or classes that encapsulate
+distinct parts of the problem.
+- **High Score Criteria:** Functions are well-named, reusable, and focus on a single responsibility.
+
+
+---
+
+### **7. Robustness**
+- **What I Look For:** The program handles edge cases, invalid inputs (if applicable), and adheres
+to the problem constraints.
+- **High Score Criteria:** Includes checks, error handling, and safeguards for potential pitfalls.
+
+
+---
+
+### **8. Documentation and Comments**
+- **What I Look For:** Meaningful comments and documentation that explain the code's logic and
+purpose.
+- **High Score Criteria:** Includes docstrings for functions and comments where necessary but avoids
+over-commenting obvious parts.
+
+---
+
+### **9. Innovation and Elegance**
+- **What I Look For:** Unique approaches that go beyond a straightforward implementation.
+- **High Score Criteria:** Solutions that are not only correct and efficient but also exhibit
+creativity or elegance in their design.
+
+---
+
+**Bonus Criteria:**
+- **Test Cases:** Inclusion of automated tests or scripts that verify the correctness of the solution.
+- **Performance Benchmarking:** Any steps to analyze and improve runtime efficiency.
+
+By scoring each criterion on a 1–10 scale, I aim to provide a holistic evaluation of the solution
+that balances correctness, problem-solving skill, and Python programming expertise.
+
+
+---
+
+
+## BAD PROGRAMMING CRITERIA
+
+**10 Worst Programming Practices in Python**
+
+
+Here are the 10 factors that lead to low ratings for Python programs, ordered from worst to least
+worst in terms of programming impact:
+
+### **1. Incorrectness**
+- **Why It's the Worst:** The program fails to produce the correct output for the provided examples
+or problem inputs. This is a critical failure, as correctness is non-negotiable.
+- **Examples:** Produces wrong results, misses edge cases, or makes assumptions not supported by the
+problem description.
+
+---
+
+### **2. Poor Efficiency (Extremely Slow)**
+- **Why It's Bad:** The solution is so inefficient that it fails to complete for larger inputs
+ within a reasonable timeframe.
+- **Examples:** Using \(O(n^3)\) algorithms when \(O(n \log n)\) solutions exist, unnecessary brute
+force, or lack of optimization for known constraints.
+
+---
+
+### **3. Lack of Structure (Spaghetti Code)**
+- **Why It's Bad:** The program lacks logical structure, making it hard to follow or modify.
+- **Examples:** Everything is written in a single, monolithic block with no functions or reusable
+components.
+
+---
+
+### **4. Hard-to-Read Code**
+- **Why It's Bad:** Code readability is crucial for understanding, debugging, and maintaining.
+- **Examples:** Poor variable names (`x1`, `var`, `tmp`), inconsistent indentation, or overly
+complex one-liners.
+
+---
+
+### **5. Overcomplication**
+- **Why It's Bad:** The solution is unnecessarily complex, making it harder to understand or debug.
+- **Examples:** Using an overly elaborate algorithm for a simple problem, or solving a problem with
+excessive nested loops or recursion.
+
+---
+
+### **6. Reinventing the Wheel**
+- **Why It's Bad:** Failing to use built-in Python features or libraries leads to inefficient and
+error-prone code.
+- **Examples:** Manually implementing sorting, prime checking, or other basic functionalities that
+ are already part of Python's standard library.
+
+---
+
+### **7. Lack of Error Handling or Robustness**
+- **Why It's Bad:** Programs that break on edge cases or invalid inputs demonstrate poor
+consideration for robustness.
+- **Examples:** Index out of range, unhandled exceptions, or assuming inputs will always meet the
+problem's description.
+
+---
+
+### **8. Over-Commenting or No Comments**
+- **Why It's Bad:** Comments that are either absent or excessive detract from clarity.
+- **Examples:** No explanation of non-obvious logic, or comments that simply restate the code
+(`# Increment x by 1 -> x += 1`).
+
+---
+
+### **9. Excessive Verbosity**
+- **Why It's Bad:** Solutions that are unnecessarily long or redundant indicate inefficiency and
+poor problem-solving skills.
+- **Examples:** Repeating the same logic multiple times instead of using loops, or verbose
+implementations of simple tasks.
+
+---
+
+### **10. Lack of Testing**
+- **Why It's Bad:** Failing to verify correctness through example and edge-case testing reduces
+confidence in the solution.
+- **Examples:** Not testing with provided examples, hardcoding outputs, or omitting tests for edge
+cases like empty inputs.
+
+---
+
+These factors cumulatively lead to lower ratings, with a focus on correctness, efficiency, and
+clarity as the most critical aspects.
+
+
+## ADDITIONAL NOTES
+
+**10 Programming Practices That Don't Directly Affect Ratings**
+
+Here are 10 programming practices that many programmers value but don't directly affect my ratings
+as an Advent of Code (AoC) judge. While they are important in general software development, they are
+less critical in the context of AoC solutions:
+
+---
+
+### **1. Code Formatting Standards (e.g., PEP 8 Compliance)**
+- **Why It Doesn't Affect Ratings:** As long as the code is readable, minor deviations from
+formatting standards (like line length or spacing) don't impact functionality or problem-solving.
+
+---
+
+### **2. Use of Type Hints**
+- **Why It Doesn't Affect Ratings:** While type hints improve maintainability in larger projects,
+ their absence in a small AoC script doesn’t hinder the solution's correctness or efficiency.
+
+---
+
+### **3. Test Automation**
+- **Why It Doesn't Affect Ratings:** Writing a formal test suite is valuable in real-world projects
+but isn't essential for AoC solutions, where correctness is often validated by running examples
+manually.
+
+---
+
+### **4. Adherence to Object-Oriented Design**
+- **Why It Doesn't Affect Ratings:** AoC problems rarely require complex systems or classes, so
+following OOP principles (e.g., encapsulation, inheritance) is often unnecessary.
+
+---
+
+### **5. Scalability Beyond the Problem Constraints**
+- **Why It Doesn't Affect Ratings:** AoC problems typically come with fixed input constraints, so
+ensuring scalability for inputs beyond those constraints isn't required.
+
+---
+
+### **6. Code Reusability**
+- **Why It Doesn't Affect Ratings:** AoC solutions are often one-off scripts, so writing reusable
+code or libraries is not a priority for these challenges.
+
+---
+
+### **7. Adherence to Functional Programming Principles**
+- **Why It Doesn't Affect Ratings:** While functional programming (e.g., avoiding side effects,
+using pure functions) is elegant, it isn't strictly necessary to solve AoC problems effectively.
+
+---
+
+### **8. Use of Advanced Debugging Tools**
+- **Why It Doesn't Affect Ratings:** Debugging practices like using a debugger or extensive logging
+are useful but not relevant if the final solution works as intended.
+
+---
+
+### **9. Performance Optimizations Beyond Problem Constraints**
+- **Why It Doesn't Affect Ratings:** Over-optimizing for hypothetical edge cases (e.g., inputs
+larger than the problem specifies) is unnecessary since AoC problems are bounded by their constraints.
+
+---
+
+### **10. Following Agile or Development Workflows**
+- **Why It Doesn't Affect Ratings:** Practices like iterative development, version control, or pair
+programming are excellent in team environments but irrelevant for evaluating a standalone AoC
+solution.
+
+---
+
+**Summary:**
+These practices are valuable in professional or large-scale projects but are often unnecessary in
+the context of AoC solutions. My ratings focus on correctness, problem-solving skills, and Python
+ proficiency rather than adherence to generalized software engineering principles.

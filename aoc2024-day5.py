@@ -84,23 +84,11 @@ def parse_input(lines):
             parts = line.split(",")
             parts = [int(v) for v in parts]
             updates.append(parts)
-    rule_sets = rule_sets_(rules)
-
-    # print(f"Rules: {len(rules)}")
-    # for i, v in enumerate(rules):
-    #     print(f"{i:4}: {v}")
-    # print(f"Updates: {len(updates)}")
-    # for i, v in enumerate(updates):
-    #     print(f"{i:4}: {v}")
-    # print(f"Rule sets: {len(rule_sets)}: {sum(len(v) for v in rule_sets.values())}")
-    # for k, v in rule_sets.items():
-    #     print(f"{k:4}: {v}")
 
     return rule_sets_(rules), updates
 
 def is_valid_update(rule_sets, update):
     "Return True if the update is valid according to the rules."
-    # print(f"Checking update: {update}", end="")
     for i, u in enumerate(update):
         if u not in rule_sets:
             continue
@@ -113,19 +101,16 @@ def is_valid_update(rule_sets, update):
     return True
 
 def validate_one_update(rule_sets, update):
-    # print(f"Checking update: {update}", end="")
     for i, u in enumerate(update):
         if u not in rule_sets:
             continue
         for j, v in enumerate(update[:i]):
             s = rule_sets[u]
             if v in s:
-                # print(f"  {i}:{u} >= {v} is invalid {s}")
                 fixed = update
                 fixed[i] = v
                 fixed[j] = u
                 return fixed, True
-    # print("  **Valid**")
     return update, False
 
 def validate_update(rule_sets, update):
@@ -155,8 +140,6 @@ def part2(rule_sets, updates):
     updates = [u for u in updates if not is_valid_update(rule_sets, u)]
     fixed_updates = [validate_update(rule_sets, u) for u in updates]
     centers = [center_value(u) for u in fixed_updates]
-    # print(f"Fixed updates: {fixed_updates}")
-    # print(f"Center values: {centers}")
     print(f"Part 2: {sum(centers)}")
 
 args = parse_args("Advent of Code 2024 - Day 5", "problems/aoc2024-day5-input-test.txt")
