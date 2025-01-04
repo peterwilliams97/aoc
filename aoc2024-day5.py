@@ -66,13 +66,11 @@ from common import parse_args, read_lines
 def rule_sets_(rules):
     "Return a dictionary of rules as sets."
     rule_sets = defaultdict(set)
-    for pre, post in rules:
-        rule_sets[pre].add(post)
+    for pre, post in rules: rule_sets[pre].add(post)
     return rule_sets
 
 def parse_input(lines):
     "Parse the input into a list of rules and a list of updates."
-
     rules = []
     updates = []
     for line in lines:
@@ -84,42 +82,36 @@ def parse_input(lines):
             parts = line.split(",")
             parts = [int(v) for v in parts]
             updates.append(parts)
-
     return rule_sets_(rules), updates
 
 def is_valid_update(rule_sets, update):
-    "Return True if the update is valid according to the rules."
+    "Return True if `update` is valid according to `rule_sets`."
     for i, u in enumerate(update):
-        if u not in rule_sets:
-            continue
-        for v in update[:i]:
-            s = rule_sets[u]
-            if v in s:
-                # print(f"  {i}:{u} >= {v} is invalid {s}")
-                return False
-    # print("  **Valid**")
+        if u in rule_sets:
+            for v in update[:i]:
+                s = rule_sets[u]
+                if v in s: return False
     return True
 
-def validate_one_update(rule_sets, update):
+def fix_one_update(rule_sets, update):
+    "Return `update` modified to obey `rule_sets` and True if `update` was changed."
     for i, u in enumerate(update):
-        if u not in rule_sets:
-            continue
-        for j, v in enumerate(update[:i]):
+        if u in rule_sets:
             s = rule_sets[u]
-            if v in s:
-                fixed = update
-                fixed[i] = v
-                fixed[j] = u
-                return fixed, True
+            for j, v in enumerate(update[:i]):
+                if v in s:
+                    fixed = update
+                    fixed[i] = v
+                    fixed[j] = u
+                    return fixed, True
     return update, False
 
-def validate_update(rule_sets, update):
-    "Return a valid update."
+def fixed_update_(rule_sets, update):
+    "Return `update` modified to obey `rule_sets`."
     fixed = update
     while True:
-        fixed, changed = validate_one_update(rule_sets, fixed)
-        if not changed:
-            break
+        fixed, changed = fix_one_update(rule_sets, fixed)
+        if not changed: break
     return fixed
 
 def center_value(update):
@@ -131,14 +123,12 @@ def part1(rule_sets, updates):
     "Solution to part 1. 143 for the test input."
     valid = [u for u in updates if is_valid_update(rule_sets, u)]
     centers = [center_value(u) for u in valid]
-    # print(f"Valid updates: {valid}")
-    # print(f"Center values: {centers}")
     print(f"Part 1: {sum(centers)}")
 
 def part2(rule_sets, updates):
     "Solution to part 2. 123 for the test input."
     updates = [u for u in updates if not is_valid_update(rule_sets, u)]
-    fixed_updates = [validate_update(rule_sets, u) for u in updates]
+    fixed_updates = [fixed_update_(rule_sets, u) for u in updates]
     centers = [center_value(u) for u in fixed_updates]
     print(f"Part 2: {sum(centers)}")
 

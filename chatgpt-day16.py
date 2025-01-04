@@ -146,95 +146,143 @@
     Analyze your map further. How many tiles are part of at least one of the best paths through the
     maze?
 """
-import time
 import heapq
-from common import parse_args, read_aoc_map, string_to_aoc_map, concat, mark_aoc_map, clean_map_text
 
-SYMBOLS = {'#', '.', 'S', 'E', 'O'} # Symbols in the maze
+def parse_maze(maze):
+    start, end = None, None
+    grid = []
 
-def find_start_end(maze):
-    "Find the start and end positions in the maze."
-    start = end = None
-    for y, row in enumerate(maze):
-        for x, char in enumerate(row):
-            if char == 'S': start = (y, x)
-            elif char == 'E': end = (y, x)
-    return start, end
+    for r, line in enumerate(maze):
+        grid.append(list(line))
+        for c, char in enumerate(line):
+            if char == 'S':
+                start = (r, c)
+            elif char == 'E':
+                end = (r, c)
 
-DIRECTIONS = [(0, 1, 'E'), (1, 0, 'S'), (0, -1, 'W'), (-1, 0, 'N')] # (dy, dx, direction)
-DIRECTION_MAP = {'E': 0, 'S': 1, 'W': 2, 'N': 3} # {d: i for i, (_, _, d) in enumerate(DIRECTIONS)}
+    return grid, start, end
 
-PENALTY_MOVE = 1 # Penalty for moving forward
-PENALTY_TURN = 1000 # Penalty for turning
+# Directions (NORTH, EAST, SOUTH, WEST) in (dy, dx) form
+directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
-def reconstruct_paths(predecessors,end):
-    "Reconstruct the paths traversed from the `predecessors` dictionary starting at `end`."
-    def backtrack(end):
-        if end not in predecessors: return [[end]]
-        return [[end] + v for pred in predecessors[end] for v in backtrack(pred)]
-    paths = backtrack(end)
-    return [[(y, x) for (y, x, _, _) in path] for path in paths]
+def dijkstra_min_score(maze):
+    grid, start, end = parse_maze(maze)
 
-def solve_maze(maze):
-    """Return all the least costly paths through `maze` using Uniform Cost search.
-        The maze is a list of strings where each string is a row of the maze.
-        The maze is a rectangular grid of tiles. The tiles are: '#', '.', 'S', 'E'.
-        The start tile is 'S' and the end tile is 'E'.
-    """
-    w, h = len(maze[0]), len(maze)
-    start, end = find_start_end(maze)
-
-    start_state = ("E", start, (0,0)) # (turns, direction, (y, x), (dy, dx))
-    pq = [(0, start_state)]           # (score, state)
-    visited = set()                   # (y, x) visited
-    predecessors = {}                 # {point on path: [predecessors]}
-    best_score, best_paths = float('inf'), [] # Best score and paths
-
-    heapq.heapify(pq)
+    # Priority queue: (score, row, col, direction)
+    pq = [(0, start[0], start[1], 1)]  # Start facing EAST
+    visited = set()
 
     while pq:
-        score, (direction, (y, x), (dy,dx)) = heapq.heappop(pq)
-        if (y, x, dy, dx) in visited: continue
-        visited.add((y, x, dy, dx))
+        score, r, c, dir_idx = heapq.heappop(pq)
 
-        if (y, x) == end:
-            paths = reconstruct_paths(predecessors, (y, x, dy, dx))
-            if score < best_score: best_score, best_paths = score, paths
-            elif score == best_score: best_paths.extend(paths)
+        if (r, c, dir_idx) in visited:
+            continue
+        visited.add((r, c, dir_idx))
+
+        # Check if we reached the end
+        if (r, c) == end:
+            return score
+
+        # 1. Move forward
+        dr, dc = directions[dir_idx]
+        nr, nc = r + dr, c + dc
+        if 0 <= nr < len(grid) and 0 <= nc < len(grid[0]) and grid[nr][nc] != '#':
+            heapq.heappush(pq, (score + 1, nr, nc, dir_idx))
+
+        # 2. Turn left (counterclockwise)
+        new_dir_left = (dir_idx - 1) % 4
+        heapq.heappush(pq, (score + 1000, r, c, new_dir_left))
+
+        # 3. Turn right (clockwise)
+        new_dir_right = (dir_idx + 1) % 4
+        heapq.heappush(pq, (score + 1000, r, c, new_dir_right))
+
+def dijkstra_all_best_paths(maze):
+    grid, start, end = parse_maze(maze)
+
+    # Priority queue: (score, row, col, direction, path)
+    pq = [(0, start[0], start[1], 1, [])]  # Start facing EAST
+    visited, best_score, all_best_paths  = set(), float('inf'), []
+
+    while pq:
+        score, r, c, dir_idx, path = heapq.heappop(pq)
+
+        if (r, c, dir_idx) in visited and score >= best_score: continue
+        visited.add((r, c, dir_idx))
+
+        # Check if we reached the end
+        if (r, c) == end:
+            if score < best_score:
+                best_score = score
+                all_best_paths = [path + [(r, c)]]
+            elif score == best_score: all_best_paths.append(path + [(r, c)])
             continue
 
-        for ndy, ndx, new_direction in DIRECTIONS:
-            ny, nx = y + ndy, x + ndx
-            if (ny, nx, ndy, ndx) in visited: continue
-            if not (0 <= ny < h and 0 <= nx < w and maze[ny][nx] != '#'): continue
-            new_state = (new_direction, (ny, nx), (ndy, ndx))
-            new_score = score + PENALTY_MOVE + PENALTY_TURN * int(direction != new_direction)
-            heapq.heappush(pq, (new_score, new_state))
-            if (ny, nx, ndy, ndx) not in predecessors: predecessors[(ny, nx, ndy, ndx)] = []
-            predecessors[(ny, nx, ndy, ndx)].append((y, x, dy, dx))
+        # 1. Move forward
+        dr, dc = directions[dir_idx]
+        nr, nc = r + dr, c + dc
+        if 0 <= nr < len(grid) and 0 <= nc < len(grid[0]) and grid[nr][nc] != '#':
+            heapq.heappush(pq, (score + 1, nr, nc, dir_idx, path + [(r, c)]))
 
-    return best_score, best_paths
+        # 2. Turn left (counterclockwise)
+        new_dir_left = (dir_idx - 1) % 4
+        heapq.heappush(pq, (score + 1000, r, c, new_dir_left, path))
 
-def part1(maze):
-    "Solution to part 1. 7036 for the test input. (127520)"
-    score, _  = solve_maze(maze)
-    print(f"The minimum score to solve the Reindeer Maze is: {score}")
+        # 3. Turn right (clockwise)
+        new_dir_right = (dir_idx + 1) % 4
+        heapq.heappush(pq, (score + 1000, r, c, new_dir_right, path))
 
-def part2(maze):
-    "Solution to part 2. 45 for the test input. (565)"
-    _, paths = solve_maze(maze)
-    tiles = {(y, x) for p in paths for y, x in p}
-    print(f"There are {len(tiles)} tiles in the best path through the maze.")
+    return all_best_paths
 
-args = parse_args("Advent of Code 2024 - Day 16", "problems/aoc2024-day16-input-test.1.txt")
+def find_best_path_tiles(maze):
+    all_best_paths = dijkstra_all_best_paths(maze)
+    tiles_on_best_paths = set()
 
-maze = read_aoc_map(args.input, SYMBOLS)
+    for path in all_best_paths:
+        for r, c in path:
+            tiles_on_best_paths.add((r, c))
 
-t0 = time.time()
-steps1 = part1(maze)
-t1 = time.time() - t0
-t0 = time.time()
-steps2 = part2(maze)
-t2 = time.time() - t0
-print(f"Part 1: {t1:.1f} sec")
-print(f"Part 2: {t2:.1f} sec")
+    return tiles_on_best_paths
+
+
+# Sample input
+maze_input = [
+    "###############",
+    "#.......#....E#",
+    "#.#.###.#.###.#",
+    "#.....#.#...#.#",
+    "#.###.#####.#.#",
+    "#.#.#.......#.#",
+    "#.#.#####.###.#",
+    "#...........#.#",
+    "###.#.#####.#.#",
+    "#...#.....#.#.#",
+    "#.#.#.###.#.#.#",
+    "#.....#...#.#.#",
+    "#.###.#.#.#.#.#",
+    "#S..#.....#...#",
+    "###############",
+]
+
+# Part 1
+real_maze_input = open("problems/aoc2024-day16-input.txt").read().strip().split("\n")
+print("Minimum score:", dijkstra_min_score(maze_input))
+print("Real minimum score:", dijkstra_min_score(real_maze_input))
+
+# Part 2
+tiles_on_best_paths = find_best_path_tiles(maze_input)
+real_tiles_on_best_paths = find_best_path_tiles(real_maze_input)
+num_best_path_tiles = len(tiles_on_best_paths)
+
+# Visualize the maze with best path tiles marked as 'O'
+def visualize_maze_with_best_paths(maze, best_path_tiles):
+    grid = [list(line) for line in maze]
+    for r, c in best_path_tiles:
+        if grid[r][c] not in ['S', 'E']:
+            grid[r][c] = 'O'
+
+    for row in grid:
+        print(''.join(row))
+
+print(f"Number of tiles on best paths: {len(real_tiles_on_best_paths)}")
+visualize_maze_with_best_paths(maze_input, tiles_on_best_paths)

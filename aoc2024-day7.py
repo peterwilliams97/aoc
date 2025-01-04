@@ -36,7 +36,7 @@ import time
 from common import parse_args, read_lines
 
 def equation_(line):
-    "Parse an equation line."
+    "Parse an equation line into a tuple of result and a list of numbers."
     result_str, numbers_str = line.split(":")
     result = int(result_str)
     numbers = list(map(int, numbers_str.split()))
@@ -46,52 +46,50 @@ def parse_input(lines):
     "Parse the input into a list of rules and a list of updates."
     return [equation_(line) for line in lines]
 
+def operate(op, a, b):
+    "Return the result of applying `op` to `a` and `b`."
+    if op == '+': return a + b
+    if op == '*': return a * b
+    if op == '|': return int(str(a) + str(b))
+
 def is_valid_step(result, current, numbers, operators):
-    "Return True if the step is valid, False otherwise."
+    """Return True if recursively applying a combination of `operators to `numbers` gives `result.
+        `result` is the target value.
+        `current` the first numbers.
+        `numbers` the remaining numbers.
+        `operators` is the allowed list of operators.
+    """
     if current > result: return False
     if len(numbers) == 0: return result == current
-
     for op in operators:
-        if op == '+':
-            new = current + numbers[0]
-        elif op == '*':
-            new = current * numbers[0]
-        elif op == '|':
-            new = int(str(current) + str(numbers[0]))
-        if is_valid_step(result, new, numbers[1:], operators):
-            return True
+        new = operate(op, current, numbers[0])
+        if is_valid_step(result, new, numbers[1:], operators): return True
     return False
 
 def is_valid_equation(result, numbers, operators):
-    "Return True if the equation is valid, False otherwise."
-    current = numbers[0]
-    return is_valid_step(result, current, numbers[1:], operators)
+    """Return True if there is an equation where applying a combination of `operators` to `numbers`
+        equals `result`.
+    """
+    return is_valid_step(result, numbers[0], numbers[1:], operators)
 
-def valid_equations(equations, operators):
+def valid_equations_(equations, operators):
     "Return a list of valid equations."
-    valid = [eq for eq in equations if is_valid_equation(*eq, operators)]
-    # print(f"Part 1: {len(equations)}")
-    # for i, eq in enumerate(equations):
-    #     print(f"{i+1:2}: {eq}")
-    # print(f"Part 1: {len(valid)}")
-    # for i, eq in enumerate(valid):
-    #     print(f"{i+1:2}: {eq}")
-    return valid
+    return [eqn for eqn in equations if is_valid_equation(*eqn, operators)]
 
 def part1(lines):
     "Solution to part 1. 3749 for the test input."
     operators = ['+', '*']
     equations = [equation_(line) for line in lines]
-    valid = valid_equations(equations, operators)
-    total = sum([v[0] for v in valid])
+    valid_equations = valid_equations_(equations, operators)
+    total = sum([v[0] for v in valid_equations])
     print(f"Part 1: {total}")
 
 def part2(lines):
     "Solution to part 2. 11387 for the test input."
     operators = ['+', '*', '|']
     equations = [equation_(line) for line in lines]
-    valid = valid_equations(equations, operators)
-    total = sum([v[0] for v in valid])
+    valid_equations = valid_equations_(equations, operators)
+    total = sum([v[0] for v in valid_equations])
     print(f"Part 2: {total}")
 
 args = parse_args("Advent of Code 2024 - Day 7", "problems/aoc2024-day7-input-test.txt")

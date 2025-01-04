@@ -1,10 +1,5 @@
 """
-   This is the contents of $file. It is a solution to an Advent of Code problem.
-    There are 2 parts to the problem. Start by listing the file name $file, then summarize
-    the problem, including both parts. Then describe the solutions to parts 1 and 2. Then
-    summarize each of your summaries for parts 1 and 2 of the problem and their solutions.
-    The python file starts now.
-
+    This module provides functions for summarising Python solutions to Advent of Code problems.
 """
 
 import os
@@ -26,6 +21,7 @@ class AOCReadmeModel(BaseModel):
     Solution1: str
     Solution2: str
 
+# Example README analysis for a Python solution to an Advent of Code problem.
 README_ANALYSIS = {
     "Title": "Corrupted Memory Processing",
     "Problem1": "Identify valid multiplication instructions (mul(a,b)) and calculate their sum.",

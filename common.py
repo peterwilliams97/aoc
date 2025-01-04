@@ -65,6 +65,8 @@ def aoc_map_(lines, symbols):
         #.#.###.#.###^#
         #.....#.#...#^#
         ###############
+        `lines` is a list of strings, typically read from a file.
+        `symbols` is a string of all allowed characters in the map.
     """
     lines = [line.strip() for line in lines]
     lines = [line for line in lines if line]
@@ -81,9 +83,6 @@ def aoc_map_(lines, symbols):
     assert i0 is not None, "No map start"
 
     aoc_map = lines[i0:i1]
-    # print(f"i0={i0} i1={i1} len(aoc_map)={len(aoc_map)}")
-    # for i, line in enumerate(aoc_map):
-    #     print(f"{i:2d}: '{line}' {len(line)}")
     for line in aoc_map:
         assert len(line) == len(aoc_map[0]), f"Rows have different lengths\naoc_map[0]={aoc_map[0]}\naoc_map[{i}]={line}"
         for c in line:
@@ -93,12 +92,21 @@ def aoc_map_(lines, symbols):
 def string_to_aoc_map(text, symbols):
     "Converts a string to an AOC map."
     lines = text.split("\n")
-    # lines = text.splitlines()
-    # lines2 = text.split("\n")
-    # assert len(lines) == len(lines2), f"splitlines() != split('\\n') {len(lines)} {len(lines2)}"
-    # for i, (line1, line2) in enumerate(zip(lines, lines2)):
-    #     assert line1 == line2, f"lines[{i}] != lines2[{i}]\n{line1}\n{line2}"
     return aoc_map_(lines, symbols)
+
+AOC_SPACE = ""
+
+def aoc_map_to_string(aoc_map, num_to_symbol):
+    "Converts an AOC map to a string."
+    w, h = len(aoc_map[0]), len(aoc_map)
+    header = AOC_SPACE.join([str(x % 10) for x in range(w)])
+    lines = []
+    lines.append(f" + {header}")
+    for y, row in enumerate(aoc_map):
+        line = AOC_SPACE.join([num_to_symbol[c] for c in row])
+        line = f"{y:2d} {line}"
+        lines.append(line)
+    return "\n".join(lines)
 
 def read_aoc_map(filename, symbols):
     "Reads a map file, which consists of lines of text, where each line is a row of the map."
@@ -108,7 +116,5 @@ def read_aoc_map(filename, symbols):
 def mark_aoc_map(aoc_map, path, char):
     "Returns a modified map with the path marked with `char`."
     rows = [list(row) for row in aoc_map]
-    for y,x in path:
-        # if rows[y][x] == ".":
-        rows[y][x]  = char
+    for y,x in path: rows[y][x] = char
     return [concat(row) for row in rows]

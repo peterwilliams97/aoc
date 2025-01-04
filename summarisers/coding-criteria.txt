@@ -1,6 +1,17 @@
 # HOW TO EVALUATE PROGRAMMING CODE
 
-Yyou must evaluate programming code based on the following criteria:
+You must evaluate programming code based on the following criteria:
+
+## BASIC REQUIREMENTS
+
+Assume you are judging professional programmers. All solutions should have the following
+properties.
+
+1. Clear separation of concerns with modular code and separate functions for different tasks.
+2. Effective use of Python data structures (lists, dictionaries, sets) and built-in functions.
+3. Good use of helper functions, list comprehensions, and functional programming techniques.
+4. Well-structured and readable code with meaningful variable names and comments.
+
 
 ## GOOD PROGRAMMING CRITERIA
 
@@ -29,7 +40,7 @@ the solution,
 
 ### **3. Efficiency**
 - **What I Look For:** The program executes efficiently, particularly for large or complex inputs.
-- **High Score Criteria:** Optimized algorithms (e.g., avoiding \(O(n^2)\) where \(O(n \log n)\) is
+- **High Score Criteria:** Optimized algorithms (e.g. avoiding \(O(n^2)\) where \(O(n \log n)\) is
 possible), appropriate use of data structures, and minimal memory overhead.
 
 
@@ -42,24 +53,32 @@ excessive nesting and clutter.
 
 ### **5. Conciseness**
 - **What I Look For:** The solution avoids unnecessary verbosity while remaining clear.
-- **High Score Criteria:** Uses Pythonic idioms (e.g., list comprehensions, `zip`, `enumerate`)
+- **High Score Criteria:** Uses Pythonic idioms (e.g. list comprehensions, `zip`, `enumerate`)
 effectively without sacrificing readability.
 
----
-
-### **6. Modularity**
-- **What I Look For:** The solution breaks the problem into functions or classes that encapsulate
-distinct parts of the problem.
-- **High Score Criteria:** Functions are well-named, reusable, and focus on a single responsibility.
-
 
 ---
 
-### **7. Robustness**
+### **6. Innovation and Elegance**
+- **What I Look For:** Unique approaches that go beyond a straightforward implementation.
+- **High Score Criteria:** Solutions that are not only correct and efficient but also exhibit
+creativity or elegance in their design.
+
+---
+
+
+### **8. Robustness**
 - **What I Look For:** The program handles edge cases, invalid inputs (if applicable), and adheres
 to the problem constraints.
 - **High Score Criteria:** Includes checks, error handling, and safeguards for potential pitfalls.
 
+
+---
+
+### **9. Modularity**
+- **What I Look For:** The solution breaks the problem into functions or classes that encapsulate
+distinct parts of the problem.
+- **High Score Criteria:** Functions are well-named, reusable, and focus on a single responsibility.
 
 ---
 
@@ -69,12 +88,6 @@ purpose.
 - **High Score Criteria:** Includes docstrings for functions and comments where necessary but avoids
 over-commenting obvious parts.
 
----
-
-### **9. Innovation and Elegance**
-- **What I Look For:** Unique approaches that go beyond a straightforward implementation.
-- **High Score Criteria:** Solutions that are not only correct and efficient but also exhibit
-creativity or elegance in their design.
 
 ---
 
@@ -179,54 +192,53 @@ clarity as the most critical aspects.
 
 ## ADDITIONAL NOTES
 
-**10 Programming Practices That Don't Directly Affect Ratings**
+**10 Programming Practices That Don't Affect Ratings**
 
-Here are 10 programming practices that many programmers value but don't directly affect my ratings
+Here are 10 programming practices that many programmers value but don't affect my ratings
 as an Advent of Code (AoC) judge. While they are important in general software development, they are
-less critical in the context of AoC solutions:
+not important for AoC solutions:
 
 ---
 
-### **1. Code Formatting Standards (e.g., PEP 8 Compliance)**
+### **1. Code Formatting Standards (e.g. PEP 8 Compliance)**
 - **Why It Doesn't Affect Ratings:** As long as the code is readable, minor deviations from
 formatting standards (like line length or spacing) don't impact functionality or problem-solving.
 
 ---
 
 ### **2. Use of Type Hints**
-- **Why It Doesn't Affect Ratings:** While type hints improve maintainability in larger projects,
- their absence in a small AoC script doesn’t hinder the solution's correctness or efficiency.
+- **Why It Doesn't Affect Ratings:** Type hints make Python code more verbose. In AoC solutions it
+is important to be able reason about algorithms so terseness in key.
 
 ---
 
 ### **3. Test Automation**
-- **Why It Doesn't Affect Ratings:** Writing a formal test suite is valuable in real-world projects
-but isn't essential for AoC solutions, where correctness is often validated by running examples
+- **Why It Doesn't Affect Ratings:** In AoC solutions, correctness is validated by running examples
 manually.
 
 ---
 
 ### **4. Adherence to Object-Oriented Design**
 - **Why It Doesn't Affect Ratings:** AoC problems rarely require complex systems or classes, so
-following OOP principles (e.g., encapsulation, inheritance) is often unnecessary.
+following OOP principles (e.g. encapsulation, inheritance) is often unnecessary.
 
 ---
 
 ### **5. Scalability Beyond the Problem Constraints**
-- **Why It Doesn't Affect Ratings:** AoC problems typically come with fixed input constraints, so
+- **Why It Doesn't Affect Ratings:** AoC problems  come with fixed input constraints, so
 ensuring scalability for inputs beyond those constraints isn't required.
 
 ---
 
 ### **6. Code Reusability**
-- **Why It Doesn't Affect Ratings:** AoC solutions are often one-off scripts, so writing reusable
-code or libraries is not a priority for these challenges.
+- **Why It Doesn't Affect Ratings:** AoC solutions are one-off scripts, so writing reusable
+code or libraries is not necessary.
 
 ---
 
 ### **7. Adherence to Functional Programming Principles**
-- **Why It Doesn't Affect Ratings:** While functional programming (e.g., avoiding side effects,
-using pure functions) is elegant, it isn't strictly necessary to solve AoC problems effectively.
+- **Why It Doesn't Affect Ratings:** AoC solutions are one-off scripts so the the benefits of
+ functional programming (e.g. avoiding side effects, using pure functions) do not apply.
 
 ---
 
@@ -237,19 +249,23 @@ are useful but not relevant if the final solution works as intended.
 ---
 
 ### **9. Performance Optimizations Beyond Problem Constraints**
-- **Why It Doesn't Affect Ratings:** Over-optimizing for hypothetical edge cases (e.g., inputs
-larger than the problem specifies) is unnecessary since AoC problems are bounded by their constraints.
+- **Why It Doesn't Affect Ratings:** Optimizing for hypothetical edge cases (e.g. inputs
+larger than the problem specifies) is unnecessary since AoC solutions only need to work on the
+given problem cases.
 
 ---
 
 ### **10. Following Agile or Development Workflows**
-- **Why It Doesn't Affect Ratings:** Practices like iterative development, version control, or pair
-programming are excellent in team environments but irrelevant for evaluating a standalone AoC
-solution.
+- **Why It Doesn't Affect Ratings:** AoC problems are solved in hours then never worked on again.
 
 ---
 
+
+
 **Summary:**
+
 These practices are valuable in professional or large-scale projects but are often unnecessary in
 the context of AoC solutions. My ratings focus on correctness, problem-solving skills, and Python
- proficiency rather than adherence to generalized software engineering principles.
+proficiency rather than adherence to generalized software engineering principles.
+
+

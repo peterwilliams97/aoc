@@ -231,7 +231,6 @@ class RunEncoding:
 def part1(blocks):
     "Solution to part 1. 1928 for the test input. 6258319840548"
     i, n = 0, len(blocks) - 1
-    # print(show(blocks))
     while i < n:
         if blocks[i] != -1:
             i += 1
@@ -242,12 +241,9 @@ def part1(blocks):
         blocks[i], blocks[n] = blocks[n], -1
         i += 1
         n -= 1
-        # print(show(blocks))
 
     checksum = checksum_(blocks)
 
-    if VERBOSE:
-        rint(f"{len(blocks)} blocks")
     print(f"Part 1: {checksum}")
 
 def part2(blocks):
@@ -271,8 +267,7 @@ def part2(blocks):
                 for i, run in enumerate(renc.run_list):
                     print(f"{i:4}: {run_len(run):2} {run.clist} {run.gap:2}")
 
-    if SHOW_PROGRESS:
-        print(f"RunList:- {state00}")
+    if SHOW_PROGRESS: print(f"RunList:- {state00}")
     blocks = renc.blocks_()
     checksum = checksum_(blocks)
     print(f"Part 2: {checksum}")
@@ -282,8 +277,7 @@ text = read_text(args.input)
 numbers = numbers_(text)
 blocks = blocks_(numbers)
 
-if DEBUG:
-    blocks = blocks[:100]
+if DEBUG: blocks = blocks[:100]
 
 if VERBOSE:
     print(f"{len(numbers)} numbers")

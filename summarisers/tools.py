@@ -35,6 +35,8 @@ def day_number(path):
     assert m, f"Day number not found in {path}"
     return int(m.group(1))
 
+def desplopify(text): return text.replace("e.g.,", "e.g.")
+
 def call_anthropics_claude(system_prompt, user_message, max_tokens=4096):
     """ Call the Anthropics API to analyze the user message in the context of the system prompt.
         Returns: JSON analysis of the user message.
@@ -48,9 +50,7 @@ def call_anthropics_claude(system_prompt, user_message, max_tokens=4096):
         max_tokens=max_tokens,
         temperature=0,
         system=system_prompt,
-        messages=[
-            {"role": "user", "content": user_message}
-        ]
+        messages=[{"role": "user", "content": user_message}]
     )
 
     # Response JSON

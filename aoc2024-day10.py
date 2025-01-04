@@ -74,12 +74,11 @@ def trailhead_destinations(chart, y0, x0):
     return destinations
 
 def complete_trails(chart, y0, x0):
-    """
-    Returns all complete trails that can be reached from a starting point
-    'y0, x0' on `chart`.
-    A complete trail is a sequence of points that has a length of 18 (9*2) and chart[y,x] == i
-    for i in 0..9.
-    i.e. trail = [(y0, x0), (y1, x1), ... (y9, x9)] where chart[y0, x0] == 0 and chart[y9, x9] == 9.
+    """ Returns all complete trails that can be reached from a starting point
+        'y0, x0' on `chart`.
+        A complete trail is a sequence of points that has a length of 18 (9*2) and chart[y,x] == i
+        for i in 0..9.
+        i.e. trail = [(y0, x0), (y1, x1), ... (y9, x9)] where chart[y0, x0] == 0 and chart[y9, x9] == 9.
     """
     h,w = chart.shape
     v = chart[y0, x0]
@@ -91,9 +90,7 @@ def complete_trails(chart, y0, x0):
         y, x = y0 + dy, x0 + dx
         if 0 <= y < h and 0 <= x < w and chart[y, x] == v + 1:
             plist = complete_trails(chart, y, x)
-            # print(f"  num_paths[{v}]({y0},{x0}) -> ({y},{x}) -> {plist}")
             for p in plist:
-                # print(f"    {p} {len(p)} {9-v}")
                 if len(p) == 2*(9-v):
                     q = list(reversed(p))
                     q.extend(list(reversed(step)))
@@ -110,8 +107,6 @@ def part1(chart):
             if chart[y][x] == 0:
                 score = trailhead_destinations(chart, y, x)
                 total += len(score)
-                # print(f"Trailhead at ({y},{x}) has score {score}={len(score)} (total {total})")
-
     print(f"Part 1: {total}")
 
 def part2(chart):
@@ -123,8 +118,6 @@ def part2(chart):
             if chart[y][x] == 0:
                 trails = complete_trails(chart, y, x)
                 total += len(trails)
-                # print(f"Trailhead at ({y},{x}) has score {score}={len(score)} (total {total})")
-
     print(f"Part 2: {total}")
 
 args = parse_args("Advent of Code 2024 - Day 10", "problems/aoc2024-day10-input-test.txt")
