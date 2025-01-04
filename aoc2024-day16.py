@@ -167,7 +167,7 @@ DIRECTION_MAP = {'E': 0, 'S': 1, 'W': 2, 'N': 3} # {d: i for i, (_, _, d) in enu
 PENALTY_MOVE = 1 # Penalty for moving forward
 PENALTY_TURN = 1000 # Penalty for turning
 
-def reconstruct_paths(predecessors,end):
+def reconstruct_paths(predecessors, end):
     "Reconstruct the paths traversed from the `predecessors` dictionary starting at `end`."
     def backtrack(end):
         if end not in predecessors: return [[end]]
@@ -183,8 +183,9 @@ def solve_maze(maze):
     """
     w, h = len(maze[0]), len(maze)
     start, end = find_start_end(maze)
+    y, x = start
 
-    start_state = ("E", start, (0,0)) # (turns, direction, (y, x), (dy, dx))
+    start_state = ("E", (y, x, 0, 0)) # (direction, (y, x, dy, dx))
     pq = [(0, start_state)]           # (score, state)
     visited = set()                   # (y, x) visited
     predecessors = {}                 # {point on path: [predecessors]}
@@ -193,7 +194,7 @@ def solve_maze(maze):
     heapq.heapify(pq)
 
     while pq:
-        score, (direction, (y, x), (dy,dx)) = heapq.heappop(pq)
+        score, (direction, (y, x, dy, dx)) = heapq.heappop(pq)
         if (y, x, dy, dx) in visited: continue
         visited.add((y, x, dy, dx))
 
@@ -207,7 +208,7 @@ def solve_maze(maze):
             ny, nx = y + ndy, x + ndx
             if (ny, nx, ndy, ndx) in visited: continue
             if not (0 <= ny < h and 0 <= nx < w and maze[ny][nx] != '#'): continue
-            new_state = (new_direction, (ny, nx), (ndy, ndx))
+            new_state = (new_direction, (ny, nx, ndy, ndx))
             new_score = score + PENALTY_MOVE + PENALTY_TURN * int(direction != new_direction)
             heapq.heappush(pq, (new_score, new_state))
             if (ny, nx, ndy, ndx) not in predecessors: predecessors[(ny, nx, ndy, ndx)] = []
@@ -231,10 +232,10 @@ args = parse_args("Advent of Code 2024 - Day 16", "problems/aoc2024-day16-input-
 maze = read_aoc_map(args.input, SYMBOLS)
 
 t0 = time.time()
-steps1 = part1(maze)
+part1(maze)
 t1 = time.time() - t0
 t0 = time.time()
-steps2 = part2(maze)
+part2(maze)
 t2 = time.time() - t0
 print(f"Part 1: {t1:.1f} sec")
 print(f"Part 2: {t2:.1f} sec")
