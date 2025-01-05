@@ -221,7 +221,7 @@ def max_num_bananas_(banana_prices: list) -> int:
 def run_monkey_market(lines: list,
                       func_prices: callable,
                       func_numbers:callable) -> None:
-    "Run the monkey market simulation
+    "Run the monkey market simulation"
     for line in lines:
         n = number_(line)
         prev = n % 10
