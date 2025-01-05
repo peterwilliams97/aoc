@@ -47,24 +47,24 @@ _The provided solutions demonstrate a strong understanding of Python programming
 **Score**: 7/10
 
 **Strengths**:
-- Clear separation of concerns with separate functions for Part 1 and Part 2
-- Effective use of Python's built-in functions (zip, sorted, abs)
-- Good use of list comprehensions and functional programming techniques
-- Well-structured and readable code with meaningful variable names
-- Inclusion of timing information for performance analysis
+- Clear separation of concerns with separate functions for Part 1 and Part 2.
+- Effective use of Python's built-in functions (zip, sorted, abs, etc.).
+- Good use of list comprehensions and functional programming techniques.
+- Well-structured and readable code with meaningful variable names.
+- Inclusion of timing information for performance analysis.
 
 **Weaknesses**:
-- Lack of comments or docstrings explaining the logic behind the solutions
-- No error handling or input validation
-- Hardcoded test input file path
+- Lack of comments explaining the logic or purpose of the functions.
+- No error handling or input validation.
+- Hardcoded test input file path.
 
 **Issues**:
-- The part2() function could potentially be optimized by using a defaultdict instead of manually initializing counts to 0
-- The timing information is printed after the solutions, which could be confusing if the output is long
+- The part1 function could potentially be optimized further by avoiding unnecessary sorting.
+- The part2 function could be made more memory-efficient by avoiding the creation of a separate list for columns.
 
 ### Day 2: [aoc2024-day2.py](aoc2024-day2.py)
 
-**Score**: 8/10
+**Score**: 7/10
 
 **Strengths**:
 - Clear separation of concerns with separate functions for different tasks.
@@ -77,10 +77,12 @@ _The provided solutions demonstrate a strong understanding of Python programming
 **Weaknesses**:
 - Lack of comments explaining the purpose and logic of some functions (e.g. diff_, pos_neg).
 - No error handling or input validation for malformed input lines.
-- Potential performance issues for very large input sizes due to the use of list comprehensions and unnecessary conversions between lists and sets.
+- No performance optimizations or consideration for large inputs.
+- Potential for code duplication between is_valid_() and is_valid_tol().
 
 **Issues**:
-- No issues identified in the provided code.
+- In is_valid_tol(): The nested loop to check subrows could be inefficient for large inputs.
+- In part1() and part2(): No error handling for empty input or non-numeric values.
 
 ### Day 3: [aoc2024-day3.py](aoc2024-day3.py)
 
@@ -99,29 +101,29 @@ _The provided solutions demonstrate a strong understanding of Python programming
 - Potential performance issues for very large input strings due to the use of regular expressions.
 
 **Issues**:
-- In spans_(): The function assumes that the input string starts with multiplication instructions enabled, which may not always be the case.
-- In part2(): The function calculates the sum of products for each enabled span separately, which could be inefficient for large inputs with many spans.
+- In sum_total(): The use of re.finditer() and regular expressions could be inefficient for very large input strings.
+- In spans_(): The function could potentially be optimized for better performance, especially for inputs with many 'do()' and 'don't()' instructions.
 
 ### Day 4: [aoc2024-day4.py](aoc2024-day4.py)
 
 **Score**: 7/10
 
 **Strengths**:
-- Clear separation of concerns with separate functions for Part 1 and Part 2.
-- Effective use of helper functions (char_positions) and list comprehensions.
-- Good use of nested loops and conditional checks to explore all possible cases.
-- Clever approach to generating offsets for Part 1 and checking diagonal directions for Part 2.
-- Well-structured and readable code with meaningful variable names.
+- Clear separation of concerns with separate functions for Part 1 and Part 2
+- Effective use of helper functions (char_positions) and list comprehensions
+- Clever generation of offsets to check for 'XMAS' sequences in Part 1
+- Efficient checking of diagonal directions in Part 2
+- Good use of comments to explain the purpose of each function
 
 **Weaknesses**:
-- Lack of comments explaining the logic and approach for each part.
-- Potential performance issues for larger grids due to nested loops and checking all offsets.
-- No error handling or input validation for invalid or malformed grids.
-- Hardcoded character sequences ('XMAS' and 'MAS') instead of using variables or constants.
+- Lack of error handling for invalid inputs (e.g. missing characters, empty grid)
+- Potential performance issues for very large grids due to nested loops
+- Limited reusability of the code for different problem variations
+- Lack of test cases or examples to verify correctness
 
 **Issues**:
-- In part1: Checking all offsets for each 'X' position could be inefficient for larger grids.
-- In part2: Nested loops and checking all diagonal directions could be slow for larger grids.
+- In part1: The nested loops and offset generation could be optimized for better performance.
+- In part2: The diagonal direction checking could be refactored into a separate function for better readability.
 
 ### Day 5: [aoc2024-day5.py](aoc2024-day5.py)
 
@@ -151,12 +153,13 @@ _The provided solutions demonstrate a strong understanding of Python programming
 - Effective use of Python data structures (sets, frozensets, deque) and built-in functions.
 - Good use of caching (lru_cache) to optimize the escaped_ function.
 - Clear and concise variable names and comments explaining the purpose of functions.
-- Inclusion of test input and timing information for performance analysis.
+- Efficient implementation of the guard's movement simulation and loop detection.
 
 **Weaknesses**:
-- The escaped_ function uses recursion, which could potentially lead to stack overflow for very large inputs.
-- The part2() function could be optimized further for better performance, especially for larger maps.
-- Error handling and input validation could be improved to handle edge cases or invalid inputs.
+- The escaped_ function uses recursion, which could potentially lead to stack overflow for very large maps.
+- The part2() function could be optimized further by avoiding redundant simulations for positions that are symmetrical or equivalent.
+- The code lacks error handling for invalid or malformed input maps.
+- The solution does not include any test cases or examples to verify correctness.
 
 **Issues**:
 - In escaped_: The recursive approach could be inefficient for very large maps.
@@ -167,63 +170,63 @@ _The provided solutions demonstrate a strong understanding of Python programming
 **Score**: 7/10
 
 **Strengths**:
-- Clear separation of concerns with modular functions
-- Effective use of recursion to explore all possible operator combinations
-- Good use of helper functions and list comprehensions
-- Well-structured and readable code with meaningful variable names
-- Handles both parts of the problem with minimal code duplication
+- Clear separation of concerns with separate functions for parsing input, checking validity, and solving each part of the problem.
+- Effective use of recursion to check all possible combinations of operators.
+- Good use of helper functions like operate and equation_.
+- Well-structured and readable code with meaningful variable names and comments.
 
 **Weaknesses**:
-- Lack of comments explaining the purpose and logic of some functions
-- No error handling or input validation
-- Potential performance issues for large inputs due to recursive approach
+- The recursive approach in is_valid_step could potentially lead to stack overflow for very large inputs.
+- The solution does not handle invalid input gracefully (e.g. missing or non-numeric values).
+- The code does not include any test cases or examples to verify correctness.
 
 **Issues**:
-- In is_valid_step: Recursive approach could lead to stack overflow for large inputs
-- In operate: Potential integer overflow when concatenating large numbers using '|'
+- In is_valid_step: The recursive approach could be inefficient for very large inputs with many numbers and operators.
+- In parse_input: The function does not handle invalid input lines or empty input.
 
 ### Day 8: [aoc2024-day8.py](aoc2024-day8.py)
 
 **Score**: 7/10
 
 **Strengths**:
-- Modular design with separate functions for different tasks (parsing input, solving Part 1 and Part 2, etc.)
-- Effective use of numpy arrays for efficient grid representation and manipulation
-- Clever use of sets and sorting to handle antenna pairs and antinodes
-- Handling of both Part 1 and Part 2 within the same solve() function, with a flag to control the behavior
-- Inclusion of timing information for performance analysis
+- Modular design with separate functions for different tasks
+- Efficient use of numpy arrays for grid representation and calculations
+- Clever use of sets and dictionaries for tracking unique values and positions
+- Handles both Part 1 and Part 2 with a single solve() function
+- Includes test input and expected output for verification
 
 **Weaknesses**:
-- Lack of comments and docstrings for better code readability and maintainability
-- Potential performance issues for larger grids or more antennas due to the nested loops and sorting operations
-- Limited error handling and input validation
-- Hardcoded values (e.g. MARK = 9) could be defined as constants at the top of the file
+- Lack of comments explaining the overall approach and key steps
+- Verbose printing statements (controlled by VERBOSE flag) could clutter the output
+- Hardcoded MARK value (9) for marking antinodes on the grid
+- Potential performance issues for larger grids or more antennas
 
 **Issues**:
-- In antinodes_: The nested loops and sorting operations could become inefficient for larger inputs.
-- In solve: The construction of the img array and the sym_num dictionary could be optimized for better performance.
-- In solve: The handling of exclusions could be simplified or optimized.
+- The antinodes_() function could be optimized for better performance, especially for larger grids
+- The solution assumes valid input and does not handle edge cases or error conditions
 
 ### Day 9: [aoc2024-day9.py](aoc2024-day9.py)
 
 **Score**: 7/10
 
 **Strengths**:
-- Well-structured and modular code with separate functions for different tasks.
-- Effective use of custom data structures (e.g. `cluster_`, `run_`) to represent the problem state.
-- Good use of helper functions (e.g. `numbers_`, `blocks_`, `show`, `run_list_`) to break down the problem into smaller parts.
+- Well-structured code with separate functions for different tasks.
+- Good use of helper functions and custom data structures (e.g. `cluster_`, `run_`).
+- Efficient implementation of the file compaction process.
+- Inclusion of debug and verbose modes for easier debugging and progress tracking.
 - Clear separation of Part 1 and Part 2 solutions.
-- Inclusion of timing information for performance analysis.
+- Timing information provided for performance analysis.
 
 **Weaknesses**:
-- Lack of comments and docstrings to explain the purpose and functionality of some functions and classes.
-- Potential inefficiency in the `defragment_run` method, which may not scale well for larger inputs.
+- Lack of comments and docstrings for some functions and classes.
+- Potential for performance issues with large inputs due to the use of lists and copying.
 - Limited error handling and input validation.
 - Some code duplication in the handling of runs and clusters.
 
 **Issues**:
-- In `defragment_run`: The nested loop approach may not be efficient for large inputs with many runs and clusters.
-- In `RunEncoding`: The `blocks_` method may be inefficient for large inputs, as it reconstructs the entire list of blocks from the runs.
+- The `run_list_` function could be optimized for better performance.
+- The `RunEncoding` class could benefit from better memory management and more efficient data structures.
+- The `defragment_run` method in `RunEncoding` could be optimized for better performance.
 
 ### Day 10: [aoc2024-day10.py](aoc2024-day10.py)
 
@@ -231,18 +234,20 @@ _The provided solutions demonstrate a strong understanding of Python programming
 
 **Strengths**:
 - Clear separation of concerns with separate functions for different tasks.
-- Effective use of Python data structures (sets, lists, and tuples).
-- Good use of recursion to explore all possible paths.
+- Effective use of recursion to explore all possible paths.
+- Good use of helper functions and modular code structure.
+- Efficient use of Python data structures (sets and tuples) to store and process paths.
 - Well-structured and readable code with meaningful variable names.
 
 **Weaknesses**:
-- Lack of comments explaining the purpose and logic of the `trailhead_destinations` and `complete_trails` functions.
-- Potential inefficiency for large inputs due to recursive approach.
-- No error handling or input validation.
+- Lack of error handling for invalid input maps.
+- Potential performance issues for very large maps due to recursive approach.
+- Limited comments explaining the logic behind the recursive functions.
+- No optimization techniques or heuristics to improve search efficiency.
 
 **Issues**:
-- In `trailhead_destinations` and `complete_trails`: Recursive approach could lead to stack overflow for large inputs.
-- In `part1` and `part2`: No input validation or error handling for invalid maps.
+- In `trailhead_destinations` and `complete_trails`: Recursive approach may lead to stack overflow for very large maps.
+- In `part1` and `part2`: No error handling for maps without trailheads or invalid map dimensions.
 
 ### Day 11: [aoc2024-day11.py](aoc2024-day11.py)
 
@@ -251,18 +256,19 @@ _The provided solutions demonstrate a strong understanding of Python programming
 **Strengths**:
 - Clear separation of concerns with separate functions for different tasks.
 - Effective use of dictionaries to store and update counts of unique numbers.
-- Caching of rule applications to avoid redundant computations.
-- Well-structured and readable code with meaningful variable names and comments.
+- Good use of helper functions (apply_rule(), blink_once(), blink_once_cache()).
+- Well-structured and readable code with meaningful variable names.
 - Inclusion of timing information for performance analysis.
+- Efficient solution for Part 2 using a caching approach.
 
 **Weaknesses**:
-- The apply_rule() function could be optimized further for better performance.
-- The blink_once_cache() function has some nested loops, which could be optimized.
-- The solution doesn't handle invalid inputs or edge cases.
+- Lack of comments explaining the purpose and logic of some functions (e.g. blink_once_cache()).
+- No error handling or input validation for the initial list of numbers.
+- Potential performance issues for Part 1 with very large inputs due to the iterative approach.
 
 **Issues**:
-- In apply_rule(): The string conversion and slicing operations could be inefficient for very large numbers.
-- In blink_once_cache(): The nested loops and dictionary lookups could be slow for large inputs.
+- In blink_once_cache: The use of nested loops and dictionary lookups could potentially be optimized for better performance.
+- In part2: The creation of a new dictionary (new_number_counts) for each blink could lead to memory overhead for very large inputs.
 
 ### Day 12: [aoc2024-day12.py](aoc2024-day12.py)
 
@@ -271,67 +277,66 @@ _The provided solutions demonstrate a strong understanding of Python programming
 **Strengths**:
 - Well-structured and modular code with separate functions for different tasks.
 - Effective use of NumPy for efficient array operations and image processing.
-- Clever use of bit masks and padding to simplify edge case handling.
+- Clever use of bit manipulation to track edge conditions.
 - Visualization of intermediate steps for debugging and understanding.
-- Handling of both Part 1 and Part 2 of the problem.
-- Inclusion of timing information for performance analysis.
+- Handling of edge cases and padding to simplify edge condition checks.
+- Separation of concerns between image processing and problem-specific logic.
 
 **Weaknesses**:
-- Lack of comments and docstrings for some functions, making it harder to understand their purpose and implementation details.
-- Potential memory inefficiency for very large inputs due to the use of NumPy arrays.
-- Hardcoded values for tile sizes and other constants, which could be made more configurable.
-- Verbose output and visualization code, which could be separated from the main solution for better readability.
+- Lack of docstrings and comments for some functions, making it harder to understand their purpose and implementation details.
+- Potential performance issues for very large inputs due to the use of nested loops and recursion.
+- Some code duplication in the handling of vertical and horizontal edges.
+- Hardcoded constants (e.g. T, U, V) that could be made more configurable or explained better.
+- Verbose output and image generation, which may not be necessary for the final solution.
 
 **Issues**:
-- In num_sides_(): The nested loops and edge case handling could potentially be optimized for better performance.
-- In edge_counts_(): The nested loops could potentially be optimized for better performance.
-- In compose_img(): The nested loops could potentially be optimized for better performance.
+- In num_sides_(): The nested loops and recursive approach could lead to performance issues for very large inputs.
+- In edge_counts_(): The nested loop could be optimized for better performance.
+- In compose_img(): The nested loops and hardcoded constants could be improved for better readability and maintainability.
 
 ### Day 13: [aoc2024-day13.py](aoc2024-day13.py)
 
 **Score**: 7/10
 
 **Strengths**:
-- Well-structured and modular code with separate functions for parsing, solving, and handling parts 1 and 2.
+- Well-structured and modular code with separate functions for parsing input, solving equations, and handling parts 1 and 2.
 - Effective use of regular expressions for parsing input data.
-- Utilization of NumPy arrays and SymPy for efficient numerical computations and equation solving.
+- Utilization of NumPy and SymPy libraries for efficient numerical and symbolic computations.
 - Clear separation of concerns with helper functions like xy_(), parse_machine(), parse_input(), fractional(), and is_int().
 - Inclusion of test cases (test_solve()) for verifying the correctness of the solve() function.
-- Printing of solution details for each machine, providing transparency and aiding debugging.
+- Timing information provided for performance analysis.
 
 **Weaknesses**:
-- Lack of error handling for invalid input or edge cases (e.g. no solution exists).
-- Limited comments explaining the purpose and logic of certain functions or code blocks.
-- Potential performance issues for large inputs due to the use of SymPy's symbolic equation solving.
-- Hardcoded tolerance value (TOL) for determining integer solutions, which may not be optimal for all cases.
-- Redundant conversion of NumPy arrays to lists and back in some places (e.g. print statements).
+- Lack of error handling for invalid input or edge cases.
+- Limited comments and docstrings explaining the purpose and functionality of some functions.
+- Potential performance issues for large inputs due to the use of symbolic computation (SymPy).
+- The solve() function could be optimized further for specific cases where a closed-form solution exists.
 
 **Issues**:
-- In solve(): The use of SymPy's symbolic equation solving may not scale well for large inputs or complex equations.
-- In part1() and part2(): Lack of error handling for cases where no solution exists for a machine.
-- In parse_input(): Potential performance issue for large inputs due to the use of list comprehensions and unnecessary conversions.
+- In solve(): The use of SymPy's solve_linear_system could be inefficient for large systems of equations.
+- In part1() and part2(): The printing of solution details could be separated into a dedicated function for better code organization.
 
 ### Day 14: [aoc2024-day14.py](aoc2024-day14.py)
 
 **Score**: 7/10
 
 **Strengths**:
-- Well-structured code with separate functions for different parts of the problem.
-- Good use of regular expressions to parse the input lines.
-- Efficient simulation of robot motion by wrapping around the edges.
-- Clever use of a hash function to detect repeated configurations.
+- Well-structured code with separate functions for different tasks.
+- Good use of regular expressions and helper functions.
+- Efficient simulation of robot motion using modular arithmetic.
 - Visualization of robot positions using matplotlib.
-- Inclusion of test cases for input parsing.
+- Inclusion of test cases and example inputs.
 
 **Weaknesses**:
-- Lack of error handling for invalid input formats.
-- Limited comments explaining the logic behind certain functions or conditions.
-- Hardcoded constants for corner size and maximum fraction of points in corners.
-- Potential performance issues for larger input sizes or longer simulations.
+- Lack of comments explaining the logic and purpose of some functions.
+- Potential performance issues for large inputs or long simulations.
+- Limited error handling and input validation.
+- Hardcoded constants for tree detection criteria.
 
 **Issues**:
-- In is_tree(): The conditions for detecting a Christmas tree pattern may be too specific or restrictive.
-- In part2(): The simulation runs for a fixed number of iterations (10_000_000), which may not be sufficient for all inputs.
+- The is_tree() function could be optimized for better performance.
+- The draw_img() function may encounter issues with large inputs or limited memory.
+- The part2() function may not terminate for certain inputs due to the lack of a cycle detection mechanism.
 
 ### Day 15: [aoc2024-day15.py](aoc2024-day15.py)
 
@@ -339,24 +344,23 @@ _The provided solutions demonstrate a strong understanding of Python programming
 
 **Strengths**:
 - Well-structured and modular code with separate functions for different tasks.
-- Effective use of NumPy arrays to represent the warehouse and perform operations.
-- Good use of helper functions and classes to encapsulate functionality.
-- Handling of both Part 1 and Part 2 scenarios with appropriate modifications.
+- Effective use of NumPy arrays to represent the warehouse grid.
+- Good use of helper functions and classes to encapsulate different aspects of the problem.
+- Handling of both Part 1 and Part 2 scenarios within the same codebase.
 - Inclusion of test cases and sample data for verification.
-- Clear separation of concerns between parsing input, simulating movements, and calculating results.
-- Use of Python's built-in functions and data structures (e.g. `zip`, `enumerate`, sets).
+- Clear separation of concerns between parsing, simulation, and calculation of results.
 
 **Weaknesses**:
 - Lack of comments and docstrings to explain the purpose and functionality of some functions and classes.
-- Potential performance issues for very large warehouse layouts or long move sequences.
+- Potential performance issues for very large warehouse grids or long move sequences.
 - Limited error handling and input validation.
-- Hardcoded values for certain constants (e.g. `BOX_BASE`, `SPACE`, `WALL`, etc.).
-- Repetitive code in some places (e.g. `SYMBOL_TO_NUMBER_1` and `SYMBOL_TO_NUMBER`).
+- Some code duplication in the handling of different box types (single, left, right).
+- The `move_box_pairs` method could be further optimized or refactored for better readability.
 
 **Issues**:
-- In the `move_box_pairs` method, the handling of box pairs and frontier extension could be optimized for better performance.
-- In the `advanced_boxes_` method, the use of a fixed loop limit (100) could potentially cause issues for very large warehouse layouts.
-- In the `grid_to_lines2` function, the use of string concatenation and replacement could be inefficient for large grids.
+- In the `move_box_pairs` method, the handling of box pairs and the frontier extension could be optimized for better performance.
+- In the `advanced_boxes_` method, the use of a fixed loop limit (100) could potentially lead to issues for very large or complex warehouse layouts.
+- In the `parse_input` function, the parsing of the input file could be more robust and handle different input formats.
 
 ### Day 16: [aoc2024-day16.py](aoc2024-day16.py)
 
@@ -400,32 +404,30 @@ _The provided solutions demonstrate a strong understanding of Python programming
 - Lack of comments and docstrings explaining the purpose and functionality of some functions.
 - Potential performance issues for large programs or input sizes due to the recursive nature of the `dfs` function.
 - Limited error handling and input validation.
-- Hardcoded constants (e.g. `MAX_ITERATIONS`, `INVALID_OUTPUT`) that could be made more configurable.
 
 **Issues**:
 - In `dfs`: The recursive approach could lead to stack overflow for very large programs or input sizes.
-- In `execute_program`: The loop condition could be optimized to avoid unnecessary iterations.
+- In `execute_program`: The loop termination condition (`iterations > 1000`) is hardcoded and may not be suitable for all inputs.
 
 ### Day 18: [aoc2024-day18.py](aoc2024-day18.py)
 
-**Score**: 7/10
+**Score**: 8/10
 
 **Strengths**:
 - Well-structured code with separate functions for different tasks
-- Good use of Python data structures (lists, sets) and built-in functions (heapq)
-- Efficient implementation of the Uniform Cost Search algorithm
-- Handles both Part 1 and Part 2 of the problem
-- Includes test cases and examples for verification
+- Efficient implementation of the Uniform Cost Search algorithm using a priority queue
+- Effective use of Python data structures (lists, sets) and built-in functions
+- Clear separation of concerns between the main problem-solving logic and helper functions
+- Inclusion of test cases and examples for verifying the correctness of the solution
 
 **Weaknesses**:
+- Lack of comments and docstrings explaining the purpose and functionality of some functions
+- Potential performance issues for larger grids or more byte positions due to the recursive path reconstruction
 - Limited error handling and input validation
-- Lack of comments explaining the algorithm and key functions
-- Potential performance issues for larger grids or more falling bytes
-- Hardcoded grid dimensions and maximum number of bytes
 
 **Issues**:
-- In solve_grid: The reconstruction of the path using reconstruct_path() could be inefficient for very long paths due to the recursive approach.
-- In part2: The approach of creating a copy of the grid for each falling byte could be memory-intensive for larger grids or more falling bytes.
+- In `reconstruct_path`: The recursive approach could lead to stack overflow for very long paths.
+- In `solve_grid`: The path reconstruction process could be inefficient for large grids or long paths.
 
 ### Day 19: [aoc2024-day19.py](aoc2024-day19.py)
 
@@ -468,8 +470,9 @@ _The provided solutions demonstrate a strong understanding of Python programming
 - The code assumes the presence of a start and end position in the maze.
 
 **Issues**:
-- In improvements1_(): The nested loops could potentially be inefficient for large mazes.
-- In improvements2_(): The double loop over all pairs of coordinates could be inefficient for large mazes.
+- In improvements1_(): The nested loops could potentially be optimized for better performance.
+- In improvements2_(): The cheat_len_() function could be simplified or inlined for better readability.
+- In part1() and part2(): The printing of results could be improved for better formatting and clarity.
 
 ### Day 21: [aoc2024-day21.py](aoc2024-day21.py)
 
@@ -495,25 +498,24 @@ _The provided solutions demonstrate a strong understanding of Python programming
 
 ### Day 22: [aoc2024-day22.py](aoc2024-day22.py)
 
-**Score**: 8/10
+**Score**: 7/10
 
 **Strengths**:
-- Clear separation of concerns with separate functions for different tasks.
-- Effective use of Python data structures (lists, classes) and built-in functions.
-- Good use of helper functions and functional programming techniques (e.g. filter, concat).
-- Well-structured and readable code with meaningful variable names and comments.
-- Efficient implementation of the secret number generation process.
-- Clever use of a Sequence class to represent and compare sequences of price changes.
+- Well-structured code with separate functions for different tasks.
+- Effective use of classes (BananaPrice and Sequence) to encapsulate data.
+- Good use of helper functions (number_, mix_prune, secret_number_).
+- Clear separation of Part 1 and Part 2 solutions.
+- Inclusion of timing information for performance analysis.
 
 **Weaknesses**:
-- The run_monkey_market function could be simplified or refactored for better readability.
-- The max_num_bananas_ function could be optimized for better performance, especially for larger inputs.
-- The solution does not handle invalid inputs or edge cases (e.g. empty input lines).
-- The solution does not include any error handling or input validation.
+- Lack of comments explaining the logic behind the mixing and pruning operations.
+- The max_num_bananas_ function could be optimized for better performance.
+- The run_monkey_market function could be refactored for better readability.
+- No error handling or input validation for the input lines.
 
 **Issues**:
-- In max_num_bananas_: The nested loops and list comprehensions could be inefficient for large inputs.
-- In run_monkey_market: The function could be split into smaller, more focused functions.
+- In max_num_bananas_: The nested loops and dictionary lookups could be inefficient for larger inputs.
+- In run_monkey_market: The use of mutable default arguments ([] for lines) could lead to unexpected behavior.
 
 ### Day 23: [aoc2024-day23.py](aoc2024-day23.py)
 
