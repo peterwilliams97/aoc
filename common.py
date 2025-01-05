@@ -94,20 +94,6 @@ def string_to_aoc_map(text, symbols):
     lines = text.split("\n")
     return aoc_map_(lines, symbols)
 
-AOC_SPACE = ""
-
-def aoc_map_to_string(aoc_map, num_to_symbol):
-    "Converts an AOC map to a string."
-    w, h = len(aoc_map[0]), len(aoc_map)
-    header = AOC_SPACE.join([str(x % 10) for x in range(w)])
-    lines = []
-    lines.append(f" + {header}")
-    for y, row in enumerate(aoc_map):
-        line = AOC_SPACE.join([num_to_symbol[c] for c in row])
-        line = f"{y:2d} {line}"
-        lines.append(line)
-    return "\n".join(lines)
-
 def read_aoc_map(filename, symbols):
     "Reads a map file, which consists of lines of text, where each line is a row of the map."
     lines = read_lines(filename)
@@ -118,3 +104,27 @@ def mark_aoc_map(aoc_map, path, char):
     rows = [list(row) for row in aoc_map]
     for y,x in path: rows[y][x] = char
     return [concat(row) for row in rows]
+
+# Grid functions
+# Grid is a 2D array of cells, where each cell is a number.
+# num_to_symbol is a dictionary that maps numbers to symbols.
+
+def aoc_map_to_grid(aoc_map, symbol_to_num):
+    return [[symbol_to_num[c] for c in line] for line in aoc_map]
+
+def grid_to_aoc_map(grid, num_to_symbol):
+    return ["".join(num_to_symbol[c] for c in row) for row in grid]
+
+GRID_SPACE = ""
+
+def grid_to_string(aoc_map, num_to_symbol):
+    "Converts an 2D grid to a string. "
+    w, h = len(aoc_map[0]), len(aoc_map)
+    header = GRID_SPACE.join([str(x % 10) for x in range(w)])
+    lines = []
+    lines.append(f" + {header}")
+    for y, row in enumerate(aoc_map):
+        line = GRID_SPACE.join([num_to_symbol[c] for c in row])
+        line = f"{y:2d} {line}"
+        lines.append(line)
+    return "\n".join(lines)

@@ -27,7 +27,7 @@ class AOCCombineCritiquesModel(BaseModel):
 COMBINE_ANALYSIS = {
     "Strengths": [
         "Consistent use of modular design across solutions",
-        "Good utilization of Python's built-in features and libraries (e.g., NumPy, regular expressions)",
+        "Good utilization of Python's built-in features and libraries (e.g. NumPy, regular expressions)",
         "Clear separation of concerns in most solutions",
         "Effective use of data structures like sets and dictionaries",
         "Inclusion of timing measurements for performance analysis"

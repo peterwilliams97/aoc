@@ -41,9 +41,9 @@ CRITIQUE_ANALYSIS = {
         "Inclusion of timing information for performance analysis."],
     "Weaknesses": [
         "The solve_maze function is quite long and could potentially be split into smaller, more focused functions.",
-        "Some magic numbers are used (e.g., PENALTY_MOVE = 1, PENALTY_TURN = 1000) which could be defined as constants at the top of the file for better maintainability.",
+        "Some magic numbers are used (e.g. PENALTY_MOVE = 1, PENALTY_TURN = 1000) which could be defined as constants at the top of the file for better maintainability.",
         "The reconstruct_paths function uses recursion, which could potentially lead to stack overflow for very large mazes.",
-        "The solution doesn't handle invalid input gracefully (e.g., missing start or end points).",
+        "The solution doesn't handle invalid input gracefully (e.g. missing start or end points).",
         "There's some code duplication in the handling of predecessors and visited states."],
     "Issues": [
         "In solve_maze: The handling of multiple paths and predecessors could potentially be memory-intensive for very large mazes.",

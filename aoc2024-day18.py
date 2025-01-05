@@ -1,7 +1,6 @@
 """
     https://adventofcode.com/2024/day/18
 
-
     --- Day 18: RAM Run ---
     You and The Historians look a lot more pixelated than you remember. You're inside a computer at
     the North Pole!
@@ -115,7 +114,7 @@
 """
 import time
 import heapq
-from common import read_lines, parse_args, aoc_map_to_string
+from common import read_lines, parse_args, grid_to_string
 
 def reconstruct_path(to_prev, y, x):
     """Reconstruct the path traversed from the `to_prev` dictionary starting at (y, x).
@@ -178,8 +177,8 @@ def solve_grid(w, h, maze, verbose=False):
 
     return best_score, best_path, num_steps
 
-def test_maze():
-    """Return a test maze."""
+def test_grid():
+    """Return a test grid."""
     w, h = 7, 7
     walls = [(5, 4), (4, 2), (4, 5), (3, 0), (2, 1), (6, 3), (2, 4), (1, 5), (0, 6), (3, 3),
               (2, 6), (5, 1), (1, 2), (5, 5), (2, 5), (6, 5), (1, 4), (0, 4), (6, 4), (1, 1),
@@ -192,35 +191,35 @@ def test_maze():
 
 def test1():
     """Test part 1."""
-    maze, w, h, walls = test_maze()
+    grid, w, h, walls = test_grid()
 
-    maze_text = aoc_map_to_string(maze, NUM_TO_SYMBOL)
+    maze_text = grid_to_string(grid, NUM_TO_SYMBOL)
     print(f"Points: {len(walls)} {walls}")
     print(f"Maze:\n{maze_text}")
 
-    score, path, num_steps = solve_grid(w, h, maze)
+    score, path, num_steps = solve_grid(w, h, grid)
     print(f"  Best score {score} in {num_steps} steps")
-    for y, x in path: maze[y][x] = PATH
-    maze_text = aoc_map_to_string(maze, NUM_TO_SYMBOL)
+    for y, x in path: grid[y][x] = PATH
+    maze_text = grid_to_string(grid, NUM_TO_SYMBOL)
     print(f"  Best score {score} in {num_steps} steps")
     print(f"Path: {len(path)} {path}")
     print(f"Maze:\n{maze_text}")
 
 def test2():
     """Test part 2."""
-    maze0, w, h, walls = test_maze()
+    maze0, w, h, walls = test_grid()
 
-    maze_text = aoc_map_to_string(maze0, NUM_TO_SYMBOL)
+    maze_text = grid_to_string(maze0, NUM_TO_SYMBOL)
 
     score, path, num_steps = solve_grid(w, h, maze0)
     print(f"  Best score {score} in {num_steps} steps")
-    maze_text = aoc_map_to_string(maze0, NUM_TO_SYMBOL)
+    maze_text = grid_to_string(maze0, NUM_TO_SYMBOL)
 
     print(f"Path: {len(path)} {path}")
     print(f"Maze0:\n{maze_text}")
     maze1 = [row.copy() for row in maze0]
     for y, x in path: maze1[y][x] = PATH
-    maze_text = aoc_map_to_string(maze1, NUM_TO_SYMBOL)
+    maze_text = grid_to_string(maze1, NUM_TO_SYMBOL)
     print(f"Maze1:\n{maze_text}")
 
     for y, x in path[1:-1]:
@@ -231,7 +230,7 @@ def test2():
         print(f"Blocking {x} {y}  Best score {score} in {num_steps} steps")
         if score == INFINITY: break
 
-    maze_text = aoc_map_to_string(maze, NUM_TO_SYMBOL)
+    maze_text = grid_to_string(maze, NUM_TO_SYMBOL)
     print(f"Path: {len(path)} {path}")
     print(f"Maze:\n{maze_text}")
 
@@ -260,7 +259,7 @@ def part2(w,h, max_points, points, verbose):
     assert len(existing_path) == len(path0) - 2, f"Invalid existing_path {len(existing_path)} != {len(path0)}"
 
     print(f"Points: {len(points)} {len(points[max_points:])} ============================")
-    maze = [row.copy() for row in maze0]
+    maze = [row[:] for row in maze0]
 
     for (x, y) in points:
         maze[y][x] = WALL
