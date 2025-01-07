@@ -44,7 +44,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 
 ## Files Analyzed
 
-### Day 1: [aoc2024-day1.py](aoc2024-day1.py)
+### Day 1 Comparing Lists: [aoc2024-day1.py](aoc2024-day1.py)
 
 **Score**: 8/10
 
@@ -62,7 +62,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The part2 function creates a dictionary right_counts to store the counts of numbers in the right column, but this could be simplified using a Counter from the collections module.
 - The part1 function sorts each column, but this is unnecessary since the problem only requires finding the absolute difference between adjacent elements.
 
-### Day 2: [aoc2024-day2.py](aoc2024-day2.py)
+### Day 2 Reactor Safety Report Validation: [aoc2024-day2.py](aoc2024-day2.py)
 
 **Score**: 7/10
 
@@ -79,7 +79,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The is_valid_ function has a minor issue: it treats sequences like [1, 2, 3, 4] as invalid because the differences are all positive but not between 1 and 3. This violates the problem description.
 - The is_valid_tol function has a minor issue: it considers sequences like [1, 2, 3, 4, 5] as valid because removing any single number makes it valid. However, the problem description states that the sequence should be either increasing or decreasing, which this sequence is not.
 
-### Day 3: [aoc2024-day3.py](aoc2024-day3.py)
+### Day 3 Corrupted Memory Processing: [aoc2024-day3.py](aoc2024-day3.py)
 
 **Score**: 8/10
 
@@ -97,7 +97,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The spans_ function iterates over the entire input string for each do/don't instruction, which could be inefficient for large inputs.
 - The part2 function performs two separate passes over the input string, one for finding spans and another for calculating products within each span.
 
-### Day 4: [aoc2024-day4.py](aoc2024-day4.py)
+### Day 4 Word Search Puzzles: [aoc2024-day4.py](aoc2024-day4.py)
 
 **Score**: 8/10
 
@@ -114,7 +114,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - In part 1, the spans list contains duplicate entries (e.g. (1, 0) and (-1, 0)) which could lead to unnecessary computations.
 - The part 2 solution does not handle the case where there are multiple 'A' characters forming valid 'X' shapes, potentially leading to overcounting.
 
-### Day 5: [aoc2024-day5.py](aoc2024-day5.py)
+### Day 5 Page Ordering Rules: [aoc2024-day5.py](aoc2024-day5.py)
 
 **Score**: 8/10
 
@@ -131,7 +131,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The fix_one_update function has a nested loop that could be inefficient for large inputs.
 - The fixed_update_ function repeatedly calls fix_one_update, which could be inefficient for large inputs.
 
-### Day 6: [aoc2024-day6.py](aoc2024-day6.py)
+### Day 6 Guard Gallivant: [aoc2024-day6.py](aoc2024-day6.py)
 
 **Score**: 8/10
 
@@ -148,7 +148,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The escaped_ function is recursive and could potentially cause a stack overflow for large inputs, although the use of lru_cache helps mitigate this issue.
 - The part2 function could be optimized further by avoiding redundant computations when checking for loops.
 
-### Day 7: [aoc2024-day7.py](aoc2024-day7.py)
+### Day 7 Equation Evaluation: [aoc2024-day7.py](aoc2024-day7.py)
 
 **Score**: 8/10
 
@@ -165,7 +165,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The is_valid_step() function could be optimized by short-circuiting when the current value exceeds the target result.
 - The operate() function could be simplified by using a dictionary instead of multiple if statements.
 
-### Day 8: [aoc2024-day8.py](aoc2024-day8.py)
+### Day 8 Antenna Antinodes: [aoc2024-day8.py](aoc2024-day8.py)
 
 **Score**: 7/10
 
@@ -184,7 +184,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The solve function has a lot of logic and could be split into smaller, more focused functions.
 - The use of global variables like VERBOSE and MARK could be avoided by passing them as arguments or using a configuration object.
 
-### Day 9: [aoc2024-day9.py](aoc2024-day9.py)
+### Day 9 Disk File Compaction: [aoc2024-day9.py](aoc2024-day9.py)
 
 **Score**: 7/10
 
@@ -203,7 +203,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The defragment_run function iterates through all previous runs for each cluster, which could be inefficient for large inputs.
 - The code does not handle edge cases or invalid inputs, such as negative or non-digit characters in the input string.
 
-### Day 10: [aoc2024-day10.py](aoc2024-day10.py)
+### Day 10 Hiking Trail Scoring: [aoc2024-day10.py](aoc2024-day10.py)
 
 **Score**: 7/10
 
@@ -222,7 +222,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The `complete_trails` function constructs the complete trails by reversing and concatenating lists, which may be inefficient for long trails.
 - The `part1` and `part2` functions iterate over the entire grid, even though many positions may not be trailheads (height 0).
 
-### Day 11: [aoc2024-day11.py](aoc2024-day11.py)
+### Day 11 Blinking Stones: [aoc2024-day11.py](aoc2024-day11.py)
 
 **Score**: 7/10
 
@@ -239,7 +239,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The `blink_once` function in Part 1 has a time complexity of O(n^2) due to the `extend` operation on a list.
 - The `apply_rule` function could be optimized further by avoiding string conversions for the even-digit case.
 
-### Day 12: [aoc2024-day12.py](aoc2024-day12.py)
+### Day 12 Garden Plot Fencing: [aoc2024-day12.py](aoc2024-day12.py)
 
 **Score**: 7/10
 
@@ -258,7 +258,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The `vh_` function is not well-documented, and its purpose is not immediately clear.
 - The visualization code is tightly coupled with the solution code, making it harder to maintain or reuse.
 
-### Day 13: [aoc2024-day13.py](aoc2024-day13.py)
+### Day 13 Claw Machine Prize Positioning: [aoc2024-day13.py](aoc2024-day13.py)
 
 **Score**: 8/10
 
@@ -276,7 +276,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The is_int function is not needed if the solve function returns exact solutions.
 - The test_solve function is not comprehensive and only tests a single case.
 
-### Day 14: [aoc2024-day14.py](aoc2024-day14.py)
+### Day 14 Restroom Redoubt: [aoc2024-day14.py](aoc2024-day14.py)
 
 **Score**: 7/10
 
@@ -295,7 +295,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The `part2` function simulates up to 10,000,000 iterations, which could be inefficient for larger inputs.
 - The `draw_img` function is not necessary for solving the problem and could be removed.
 
-### Day 15: [aoc2024-day15.py](aoc2024-day15.py)
+### Day 15 Warehouse Robot Movement Simulation: [aoc2024-day15.py](aoc2024-day15.py)
 
 **Score**: 7/10
 
@@ -314,7 +314,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The `extend_frontier` and `advanced_boxes_` methods are also complex and could be simplified or better explained.
 - The `valid_part2_grid` function has some code duplication and could be refactored.
 
-### Day 16: [aoc2024-day16.py](aoc2024-day16.py)
+### Day 16 Reindeer Maze Navigation: [aoc2024-day16.py](aoc2024-day16.py)
 
 **Score**: 8/10
 
@@ -332,7 +332,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The `reconstruct_paths` function in `solve_maze_paths` could be optimized to avoid reconstructing duplicate paths.
 - The `reconstruct_points` function in `solve_maze_points` could be simplified by using a set comprehension or generator expression.
 
-### Day 17: [aoc2024-day17.py](aoc2024-day17.py)
+### Day 17 Chronospatial Computer: [aoc2024-day17.py](aoc2024-day17.py)
 
 **Score**: 7/10
 
@@ -349,7 +349,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The dfs function could be optimized by using bitmasks or other techniques to avoid trying all possible values of register A.
 - The execute_program function could be made more concise by using a dictionary or function lookup for opcodes instead of a long if-elif chain.
 
-### Day 18: [aoc2024-day18.py](aoc2024-day18.py)
+### Day 18 RAM Run: [aoc2024-day18.py](aoc2024-day18.py)
 
 **Score**: 8/10
 
@@ -368,7 +368,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The solve_grid function could be optimized to avoid reconstructing the entire path for each iteration.
 - The part2 function has some redundant code and could be refactored for better readability.
 
-### Day 19: [aoc2024-day19.py](aoc2024-day19.py)
+### Day 19 Towel Arrangement: [aoc2024-day19.py](aoc2024-day19.py)
 
 **Score**: 7/10
 
@@ -387,7 +387,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The num_valid_designs function creates a global variable and then calls dfs_all, which is not very modular.
 - The test1 function hardcodes the test cases instead of reading them from the input.
 
-### Day 20: [aoc2024-day20.py](aoc2024-day20.py)
+### Day 20 Race Condition Festival: [aoc2024-day20.py](aoc2024-day20.py)
 
 **Score**: 8/10
 
@@ -404,7 +404,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The improvements2_ function could be optimized by avoiding unnecessary computations for pairs of points that are too far apart to benefit from a cheat.
 - The cheat_len_ function could be simplified by using the built-in max function instead of separate abs calls.
 
-### Day 21: [aoc2024-day21.py](aoc2024-day21.py)
+### Day 21 Keypad Conundrum: [aoc2024-day21.py](aoc2024-day21.py)
 
 **Score**: 8/10
 
@@ -419,7 +419,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 
 **Issues**:
 
-### Day 22: [aoc2024-day22.py](aoc2024-day22.py)
+### Day 22 Monkey Market: [aoc2024-day22.py](aoc2024-day22.py)
 
 **Score**: 8/10
 
@@ -436,7 +436,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The max_num_bananas_ function has a nested loop that could become inefficient for larger inputs.
 - The Sequence class could be simplified by using a tuple or list instead of a custom class.
 
-### Day 23: [aoc2024-day23.py](aoc2024-day23.py)
+### Day 23 LAN Party: [aoc2024-day23.py](aoc2024-day23.py)
 
 **Score**: 8/10
 
@@ -454,7 +454,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The bron_kerbosch and bron_kerbosch_with_pivot functions have some code duplication and could be refactored.
 - The triplets_ function has a nested loop that could be optimized for better performance.
 
-### Day 24: [aoc2024-day24.py](aoc2024-day24.py)
+### Day 24 Crossed Wires Logic Gate Simulation: [aoc2024-day24.py](aoc2024-day24.py)
 
 **Score**: 8/10
 
@@ -473,7 +473,7 @@ _The solutions demonstrate a good understanding of Python programming and proble
 - The `ripple_carry_adder_violations` function is quite complex and could be refactored for better readability.
 - The `evaluate_wires` function has a nested loop that could potentially be optimized for better performance.
 
-### Day 25: [aoc2024-day25.py](aoc2024-day25.py)
+### Day 25 Virtual Lock and Key Fitting: [aoc2024-day25.py](aoc2024-day25.py)
 
 **Score**: 7/10
 

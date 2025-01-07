@@ -6,8 +6,8 @@ from readme_tools import FILE_README_PATTERN, README_PATH
 
 def build_markdown(combined_critique, file_summaries):
     """Build the markdown for the summary
-    combined_critique: dict: Overall critique. See assemble_critiques.py
-    file_summaries: list of dict: File summaries. See file_readme.py
+    combined_critique: Overall critique. See assemble_critiques.py
+    file_summaries:  File summaries. See file_readme.py
     """
     lines = [
         "# Advent of Code 2024 Solutions\n\n",
@@ -29,7 +29,7 @@ def build_markdown(combined_critique, file_summaries):
 
     return ''.join(lines)
 
-def file_critique_(path):
+def file_summary_(path):
     critique = read_json(path)
 
     assert 'Name' in critique, f"Name not found in {path}"
@@ -40,11 +40,10 @@ def file_critique_(path):
 
 def build_readme_markdown():
     overall_critique = None
-    file_paths = sorted(glob.glob(FILE_README_PATTERN))
-    file_critiques = [file_critique_(filename) for filename in file_paths]
-    critique_md = build_markdown(overall_critique, file_critiques)
-    critique_md = desplopify(critique_md)
-    write_text(README_PATH, critique_md)
+    file_summaries = [file_summary_(filename) for filename in sglob(FILE_README_PATTERN)]
+    readme_md = build_markdown(overall_critique, file_summaries)
+    readme_md = desplopify(readme_md)
+    write_text(README_PATH, readme_md)
     print(f"{README_PATH} file created.")
 
 if __name__ == '__main__':

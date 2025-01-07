@@ -1,11 +1,12 @@
 """Build the markdown for CRITIQUE.md
 """
-import glob
 from functools import partial
-from tools import read_json, md_link, md_numbered_list, md_bulleted_list, desplopify
+from tools import read_json, md_link, md_numbered_list, md_bulleted_list, desplopify, sglob
 from critique_tools import OVERALL_CRITIQUE_PATH, FILE_CRITIQUE_PATTERN, CRITIQUE_PATH
+from readme_tools import FILE_README_PATTERN
+from build_readme_md import  file_summary_
 
-def build_markdown(combined_critique, file_critiques, show_problems=False):
+def build_markdown(combined_critique, file_critiques, file_summaries, show_problems=False):
     """Build the markdown for the critique
     combined_critique: dict: Overall critique. See assemble_critiques.py
     file_critiques: list of dict: File critiques. See file_critiques.py
@@ -31,9 +32,10 @@ def build_markdown(combined_critique, file_critiques, show_problems=False):
 
     add("## Files Analyzed\n\n"),
 
-    file_critiques.sort(key=lambda critique: critique['Day'])
-    for critique in file_critiques:
-        add(f"### Day {critique['Day']}: {md_link(critique['Name'])}\n\n")
+    file_critiques.sort(key=lambda k: k['Day'])
+    file_summaries.sort(key=lambda k: k['Day'])
+    for critique, summary in zip(file_critiques, file_summaries):
+        add(f"### Day {critique['Day']} {summary['Title']}: {md_link(critique['Name'])}\n\n")
         add(f"**Score**: {critique['Score']}/10\n\n")
         if show_problems:
             add(f"**Problem 1**: {critique['Problem1']}\n\n")
@@ -57,9 +59,9 @@ def file_critique_(path):
 
 def build_critique_markdown():
     overall_critique = read_json(OVERALL_CRITIQUE_PATH)
-    file_paths = sorted(glob.glob(FILE_CRITIQUE_PATTERN))
-    file_critiques = [file_critique_(filename) for filename in file_paths]
-    critique_md = build_markdown(overall_critique, file_critiques)
+    file_critiques = [file_critique_(filename) for filename in sglob(FILE_CRITIQUE_PATTERN)]
+    file_summaries = [file_summary_(filename) for filename in sglob(FILE_README_PATTERN)]
+    critique_md = build_markdown(overall_critique, file_critiques, file_summaries)
     critique_md = desplopify(critique_md)
     with open(CRITIQUE_PATH, 'w') as f: f.write(critique_md)
     print(f"{CRITIQUE_PATH} file created.")

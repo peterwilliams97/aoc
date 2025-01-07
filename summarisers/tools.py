@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import glob
 from functools import partial
 import anthropic
 
@@ -76,3 +77,5 @@ def md_list(prefix, add_func, title, vals):
 
 md_numbered_list = partial(md_list, "1.")
 md_bulleted_list = partial(md_list, "-")
+
+def sglob(pattern): return sorted(glob.glob(pattern))
