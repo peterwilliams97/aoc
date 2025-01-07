@@ -163,12 +163,10 @@
 """
 import time
 from typing import List, Dict
-from common import concat, parse_args, read_lines
+from common import parse_args, read_lines, number_
 
 class BananaPrice:
-    def __init__(self, num: int, change: int):
-        self.num = num
-        self.change = change
+    def __init__(self, num, change): self.num, self.change = num, change
 
     @staticmethod
     def from_previous(input_num: int, previous: int):
@@ -177,51 +175,41 @@ class BananaPrice:
         return BananaPrice(num=num, change=change)
 
 class Sequence:
-    def __init__(self, a: int, b: int, c: int, d: int):
-        self.a = a
-        self.b = b
-        self.c = c
-        self.d = d
+    "A sequence of four changes in price."
+    def __init__(self, changes):
+        assert len(changes) == 4
+        self.changes = tuple(changes)
+    def __hash__(self): return hash(self.changes)
+    def __eq__(self, other): return self.changes == other.changes
 
-    def __hash__(self):
-        return hash((self.a, self.b, self.c, self.d))
+def mix_prune(num: int, secret_num): return (num ^ secret_num) % 0x1000000
 
-    def __eq__(self, other):
-        return (self.a, self.b, self.c, self.d) == (other.a, other.b, other.c, other.d)
-
-def number_(text: str) -> int:
-    "Return the number formed by concatenating all the digits in `text`."
-    if not any(char.isdigit() for char in text): return 0
-    return int(concat(filter(str.isdigit, text)))
-
-def mix_prune(num: int, secret_num: int) -> int: return (num ^ secret_num) % 0x1000000
-
-def secret_number_(num: int) -> int:
+def secret_number_(num):
     "Calculate the next secret number in the sequence."
-    num = mix_prune(num << 6, num)
-    num = mix_prune(num >> 5, num)
-    num = mix_prune(num << 11, num)
+    num = mix_prune(num * 64, num)
+    num = mix_prune(num // 32, num)
+    num = mix_prune(num * 2048, num)
     return num
 
-def max_num_bananas_(banana_prices: list) -> int:
-    "Find the sequence of changes that will maximize the number of bananas."
+def max_num_bananas_(banana_prices):
+    "Find the sequence of 4 changes that will maximize the number of bananas."
     seq_nums = {}
 
     for i, line_prices in enumerate(banana_prices):
-        segment = [line_prices[i].change for i in range(3)]
+        changes = [line_prices[i].change for i in range(3)]
         for banana in line_prices[3:]:
-            segment.append(banana.change)
-            seq = Sequence(segment[0], segment[1], segment[2], segment[3])
+            changes.append(banana.change)
+            seq = Sequence(changes)
             if seq not in seq_nums: seq_nums[seq] = [0] * len(banana_prices)
             if seq_nums[seq][i] == 0: seq_nums[seq][i] = banana.num
-            segment = segment[1:]
+            changes = changes[1:]
 
     return max([sum(v) for v in seq_nums.values()])
 
-def run_monkey_market(lines: list,
-                      func_prices: callable,
-                      func_numbers:callable) -> None:
-    "Run the monkey market simulation"
+def run_monkey_market(lines, func_prices, func_numbers) :
+    """Run the monkey market simulation for each line in `lines` and write the results to the
+        functions `func_prices` and `func_numbers`.
+    """
     for line in lines:
         n = number_(line)
         prev = n % 10

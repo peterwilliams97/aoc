@@ -102,10 +102,10 @@
     ka-de
     The LAN party posters say that the password to get into the LAN party is the name of every
     computer at the LAN party, sorted alphabetically, then joined together with commas. (The people
-    running the LAN party are clearly a bunch of nerds.) In this example, the password would be co,de,ka,ta.
+    running the LAN party are clearly a bunch of nerds.) In this example, the password would be
+    co,de,ka,ta.
 
     What is the password to get into the LAN party?
-
 """
 import time
 from collections import defaultdict
@@ -160,23 +160,42 @@ def bron_kerbosch(R: Set[str],
         bron_kerbosch(R.union({v}), P.intersection(graph[v]), X.intersection(graph[v]), graph, cliques)
         P.remove(v)
         X.add(v)
-    return cliques
+
+def bron_kerbosch_with_pivot(R: Set[str],
+                             P: Set[str],
+                             X: Set[str],
+                             graph: Dict[str, Set[str]],
+                             cliques: List[Set[str]]) -> None:
+    """ Bron-Kerbosch algorithm with pivot to find all maximal cliques in an undirected graph.
+       This version selects a pivot vertex to reduce the number of recursive calls.
+    """
+    if not P and not X:
+        cliques.append(R)
+        return
+
+    pivot = next(iter(P.union(X)))  # Select a pivot vertex
+    for v in P - graph[pivot]:  # Iterate over vertices not adjacent to the pivot
+        bron_kerbosch_with_pivot(R.union({v}), P.intersection(graph[v]), X.intersection(graph[v]), graph, cliques)
+        P.remove(v)
+        X.add(v)
 
 def max_clique_(graph: Dict[str, Set[str]]) -> List[str]:
     "Return the largest clique in the graph."
     all_computers = set(graph.keys())
-    cliques = bron_kerbosch(set(), all_computers, set(), graph, [])
+    cliques = []
+    bron_kerbosch(set(), all_computers, set(), graph, cliques)
     return max(cliques, key=len)
 
-def part1(lines):
+def part1(graph):
     "Solution to part 1. (1000)"
     num_t_triplets = num_t_triplets_(triplets_(graph))
-    print(f"Part 1: number of triplets starting with t is {num_t_triplets}")
+    print(f"Part 1: Number of triplets starting with t is {num_t_triplets}")
 
-def part2(grid):
+def part2(graph):
     "Solution to part 2. (cf,ct,cv,cz,fi,lq,my,pa,sl,tt,vw,wz,yd)"
     max_clique = max_clique_(graph)
-    print(f"Part 2: Max clique is {",".join(sorted(max_clique))}")
+    password = ",".join(sorted(max_clique))
+    print(f"Part 2: Password is {password}")
 
 args = parse_args("Advent of Code 2024 - Day 23", "problems/aoc2024-day23-input.txt")
 
@@ -185,7 +204,6 @@ graph = graph_(lines)
 
 t0 = time.time()
 part1(graph)
-
 t1 = time.time() - t0
 t0 = time.time()
 part2(graph)

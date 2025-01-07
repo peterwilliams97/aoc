@@ -153,7 +153,7 @@
 """
 import time
 from typing import List, Dict
-from common import concat, parse_args, read_lines
+from common import parse_args, read_lines, number_, concat
 
 class Coord:
     def __init__(self, x: int, y: int):
@@ -182,10 +182,9 @@ DIRECTION_PAD = {
     ">": Coord(2, 0)
 }
 
-def number_(text: str) -> int:
-    """Return the number formed by concatenating all digits in `text`."""
-    if not any(char.isdigit() for char in text): return 0
-    return int(concat(filter(str.isdigit, text)))
+def complexity_(line: str, num_presses: int) -> int:
+    """Return the complexity of `line`."""
+    return number_(line) * num_presses
 
 def steps_(direction_presses: List[str]) -> List[List[str]]:
     """Returns the steps resulting from `direction_presses`."""
@@ -283,25 +282,25 @@ def num_presses_after_robot(numeric_presses: List[str],
     cache[key][robot - 1] = count
     return count
 
-def num_presses_(lines: List[str], num_robots: int) -> int:
-    """Returns the number of presses needed to type all codes."""
-    count = 0
+def total_complexity_(lines: List[str], num_robots: int) -> int:
+    """Returns the total complexity of `lines`."""
+    total_complexity = 0
     cache = {}
     for line in lines:
         presses = numeric_presses_(line, "A")
-        num = num_presses_after_robot(presses, num_robots, 1, cache)
-        count += number_(line) * num
-    return count
+        num_presses = num_presses_after_robot(presses, num_robots, 1, cache)
+        total_complexity += complexity_(line, num_presses)
+    return total_complexity
 
 def part1(lines):
-    "Solution to part 1. (1422)"
-    num_presses = num_presses_(lines, 2)
-    print(f"Answer to part 1: {num_presses}")
+    "Solution to part 1. (176650)"
+    total_complexity = total_complexity_(lines, 2)
+    print(f"Part 1: Total complexity {total_complexity}")
 
-def part2(grid):
-    "Solution to part 2. (1009299)"
-    num_presses = num_presses_(lines, 25)
-    print(f"Answer to part 2: {num_presses}")
+def part2(lines):
+    "Solution to part 2. (217698355426872)"
+    total_complexity = total_complexity_(lines, 25)
+    print(f"Part 2: Total complexity {total_complexity}")
 
 args = parse_args("Advent of Code 2024 - Day 21", "problems/aoc2024-day21-input.txt")
 

@@ -104,10 +104,7 @@ def run_len(run):
     return sum(c.n for c in run.clist) + run.gap
 
 def show(blocks):
-    """
-    Return a string representation of `blocks`, a list of blocks. If a block has a value of -1, it's
-    represented as a dot ('.'). Otherwise, the block value is converted to a string.
-    """
+    "Return a string representation of `blocks`, '.' for -1 and the block value otherwise"
     return "".join(str(b) if b != -1 else "." for b in blocks)
 
 def checksum_(blocks):
@@ -115,9 +112,7 @@ def checksum_(blocks):
     return sum(i * v for i, v in enumerate(blocks) if v != -1)
 
 def run_list_(blocks):
-    """
-    Scans `blocks`, a list of blocks returns them as a list of runs.
-   """
+    "Scan `blocks`, a list of blocks return them as a list of runs."
     run_list = []
     clist = []
     gap_g = [0]

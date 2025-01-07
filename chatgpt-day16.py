@@ -244,7 +244,6 @@ def find_best_path_tiles(maze):
 
     return tiles_on_best_paths
 
-
 # Sample input
 maze_input = [
     "###############",

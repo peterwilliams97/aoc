@@ -26,38 +26,26 @@ class AOCCombineCritiquesModel(BaseModel):
 
 COMBINE_ANALYSIS = {
     "Strengths": [
-        "Consistent use of modular design across solutions",
-        "Good utilization of Python's built-in features and libraries (e.g. NumPy, regular expressions)",
-        "Clear separation of concerns in most solutions",
-        "Effective use of data structures like sets and dictionaries",
-        "Inclusion of timing measurements for performance analysis"
+        "Biggest strength in solving the advent of code problems, if any",
+        "2nd biggest strength in solving the advent of code problems, if any",
+        "3rd biggest strength in solving the advent of code problems, if any",
     ],
     "Weaknesses": [
-        "Inconsistent error handling and input validation across solutions",
-        "Some solutions contain hardcoded values that could be parameterized",
-        "Lack of comprehensive comments in some complex algorithms",
-        "Occasional use of global variables instead of function parameters",
-        "Some functions are overly complex and could be broken down further"
+        "Biggest weakness in solving the advent of code problems, if any",
+        "2nd biggest weakness in solving the advent of code problems, if any",
+        "3rd biggest weakness in solving the advent of code problems, if any"
     ],
     "Issues": [
-        "is_valid_equation and is_valid_step in day7 solution (inefficient recursive approach)",
-        "trailhead_destinations and complete_trails in day10 solution (inefficient recursive implementation)",
-        "blink_once and blink_once_cache in day11 solution (slight code duplication)",
-        "num_sides_ in day12 solution (complex nested loops)",
-        "part1 and part2 in day13 solution (code duplication)",
-        "antinodes_ in day8 solution (complex nested loops)",
-        "run_list_ and blocks_ in day9 solution (potential inefficiencies)"
+       "Worst function in terms of correctness, efficiency, duplication, or fragility, if any",
+        "2nd worst function in terms of correctness, efficiency, duplication, or fragility, if any",
+        "3rd worst function in terms of correctness, efficiency, duplication, or fragility, if any"
     ],
     "DevelopmentAreas": [
-        "Implementing consistent error handling and input validation",
-        "Refactoring complex functions into smaller, more manageable pieces",
-        "Reducing code duplication by creating more reusable functions",
-        "Adding more comprehensive comments, especially for complex algorithms",
-        "Optimizing inefficient algorithms, particularly recursive implementations",
-        "Replacing global variables with function parameters or configuration objects",
-        "Parameterizing hardcoded values for better flexibility and maintainability"
+       "Biggest area for growth in terms of coding practices, if any",
+        "2nd biggest area for growth in terms of coding practices, if any",
+        "3rd biggest area for growth in terms of coding practices, if any"
     ],
-    "Overall": "The programmer demonstrates strong modular design, effective use of Python's features, and strategic data structure choices, but needs to improve error handling, code parameterization, and function simplicity while addressing inefficiencies and redundancies in specific solutions.",
+    "Overall": "Overall performance of the Python files at solving the problems and how well they address the problems, how easy they are to understand and extend.",
 
     "Score": 2,
 
@@ -71,8 +59,8 @@ COMBINE_PROMPT = """
 
     1. The main strengths
     2. The main weaknesses.
-    3. The functions that are inefficient or have duplicate or fragile code or have other issues. Be sure  to list the function names these issue occur in in the 'Issues' section. These can be copied from the individual file analyses..
-    4. A broad description of the overall performance of the Python files.
+    3. The functions that are inefficient or have duplicate or fragile code or have other issues. Be sure  to list the function names these issue occur in in the 'Issues' section. These can be copied from the individual file analyses.
+    4. A broad description of the overall performance of the Python files at solving the problems. How well they address the problens, how easy they are to understand and extend.
     5. Overall skill level on a scale of 1 to 10 where 1 is beginner level, 5 is an average solution and 10 is the top of Advent of Code solutions.
     6. Recommendations for growth.
 
@@ -105,7 +93,8 @@ def analyze_programmer_patterns(file_analyses: List[Dict]) -> dict:
     {json.dumps(analysis_data, indent=2)}
     ```
 
-    Provide a comprehensive assessment in JSON format focusing on patterns, strengths, and areas for growth.
+    Provide a comprehensive assessment in JSON format focusing on how well the solutions address the
+    problems, the strengths and weaknesses of the solutions and areas for growth.
     Remember the keys in the JSON should be {list(COMBINE_ANALYSIS.keys())}.
     """
 

@@ -20,7 +20,7 @@ def parse_args(description, default_input):
     parser.add_argument('-i', '--input', default=default_input, help=f"Input file path (default: {default_input})")
     parser.add_argument('-t', '--testing', action='store_true', help='Enable testing mode')
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose output')
-
+    parser.add_argument('-o', '--optimise', action='store_true', help='Optimise the solution')
     return parser.parse_args()
 
 def read_text(filename):
@@ -47,10 +47,8 @@ def char_positions(rows, char):
 
 class MyNamespace(SimpleNamespace):
     "SimpleNamespace with a simpler str/repr."
-    def __str__(self):
-        return f"{self.__dict__}"
-    def __repr__(self):
-        return f"{self.__dict__}"
+    def __str__(self): return f"{self.__dict__}"
+    def __repr__(self): return f"{self.__dict__}"
 
 def clean_map_text(text):
     lines = text.split("\n")
@@ -128,3 +126,8 @@ def grid_to_string(aoc_map, num_to_symbol):
         line = f"{y:2d} {line}"
         lines.append(line)
     return "\n".join(lines)
+
+def number_(text):
+    """Return the number formed by concatenating all digits in `text`."""
+    if not any(char.isdigit() for char in text): return 0
+    return int(concat(filter(str.isdigit, text)))
